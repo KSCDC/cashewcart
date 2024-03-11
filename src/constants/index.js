@@ -183,7 +183,7 @@ export const productData = [
     {
       id: 9,
       name: "Large White Pieces (LWP)",
-      image: "/images/products/primaryImage/lwp.png",
+      image: "/images/products/primaryImage/s.png",
       second_image: "/images/products/secondaryImage/lwp.png",
       type: "plain",
       grade: "popular", 

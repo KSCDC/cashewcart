@@ -6,9 +6,11 @@ export default function App(){
   return(
     <BrowserRouter>
     <Navbar/>
+    <div className="p-3">
     <Routes>
       <Route path="/" element={<Home/>}></Route>
     </Routes>
+    </div>
     </BrowserRouter>
   )
 }
