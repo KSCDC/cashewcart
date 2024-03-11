@@ -7,7 +7,8 @@ import { useAuth } from '../Hook/AuthContext';
 function Navbar() {
     const { isLoggedIn, setIsLoggedIn } = useAuth();
     return (
-        <nav className='text-white p-3 bg-gray-800 h-14 flex items-center justify-between'>
+       <div>
+         <nav className='text-white p-3 bg-gray-800 h-14 flex items-center justify-between'>
             <Link to={"/"}>
                 <h2 className="uppercase text-white font-bold text-xl">cashew<span className='text-red-500'>cart</span></h2>
             </Link>
@@ -50,6 +51,16 @@ function Navbar() {
             </div>
 
         </nav>
+        {/* second nav */}
+        <nav className='min-h-12 border-b border-zinc-500 bg-white p-2 flex items-center mt-3'>
+            <img src="/kscdc.png" className='hidden lg:block h-36 object-cover' alt="" />
+            <div>
+                <h1><span className='font-bold text-xl'>THE KERALA STATE CASHEW DEVELOPEMENT CORPORATION LTD</span> <br />
+                <span> A GOVERNMENT OF KERALA UNDERTAKING (AN ISO 22000-2005 CERTIFIED COMPANY)</span>
+                </h1>
+            </div>
+        </nav>
+       </div>
     )
 }
 
