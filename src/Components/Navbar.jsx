@@ -2,19 +2,31 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import { IoLocationOutline, IoCartOutline, IoLogoGooglePlaystore } from "react-icons/io5";
 import { FaAppStore } from "react-icons/fa";
+import { useAuth } from '../Hook/AuthContext';
 
 function Navbar() {
+    const { isLoggedIn, setIsLoggedIn } = useAuth();
     return (
         <nav className='text-white p-3 bg-gray-800 h-14 flex items-center justify-between'>
-            <h2 className="uppercase text-white font-bold text-xl">cashew<span className='text-red-500'>cart</span></h2>
+            <Link to={"/"}>
+                <h2 className="uppercase text-white font-bold text-xl">cashew<span className='text-red-500'>cart</span></h2>
+            </Link>
             <div className="hidden lg:flex items-center ">
                 <button className='px-4 bg-red-500 text-white p-2 rounded-l'>Filter</button>
                 <input type="text" className='p-2 w-96 outline-none rounded-r' placeholder='Search Products....' name="" id="" />
             </div>
             {/* btn for login and register */}
-            <Link to="/">
-                <button className='p-2 text-white  font-bold px-4 bg-red-500 '>Login / Register</button>
-            </Link>
+            { isLoggedIn ? (
+                <Link to="/">
+                    <button className='p-2 text-white  font-bold px-4 bg-red-500 '>Logout</button>
+                </Link>
+            ) : (
+
+
+                <Link to="/login">
+                    <button className='p-2 text-white  font-bold px-4 bg-red-500 '>Login / Register</button>
+                </Link>
+            )}
 
             {/* icons */}
             <div className='hidden lg:flex items-center gap-x-3'>
