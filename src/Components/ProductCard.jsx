@@ -8,16 +8,8 @@ function ProductCard({id, image, name, type, description,packet_weights }) {
       <div className="p-4">
         <h2 className="text-xl font-semibold text-gray-800 mb-2">{name}</h2>
         <p className="text-gray-700">{description.slice(0, 50)}...</p>
-       <div className="flex justify-bwtween">
-        <div>
-          {packet_weights.map((value) => (
-            <div>
-              <span>{value.weight}</span>
-              <span>{value.mrp}</span>
-
-            </div>
-          ))}
-        </div>
+       <div className="flex justify-end">
+  
        <Link to={"/purchase"} state={{id: id}}>
        <button className='btn text-white bg-red-500 hover:bg-red-600'>
         <MdOutlineShoppingCart/>Buy Now
