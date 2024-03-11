@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { productData } from "../../constants"
 import ProductCard from "../../Components/ProductCard"
+import HomeBanner from "./HomeBanner"
 
 export default function Home() {
     // state to track user click on which tab
@@ -59,6 +60,8 @@ export default function Home() {
             <div className="flex justify-center mt-4">
                 <button className="btn border border-red-500 hover:bg-red-500 hover:text-white  text-red-500">View More..</button>
             </div>
+            {/* home page contents */}
+            <HomeBanner imageNumber={1}/>
         </main>
     )
 }
