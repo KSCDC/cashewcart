@@ -34,28 +34,28 @@ export default function Home() {
         <button
           role="tab"
           onClick={() => userClick(1)}
-          className={`${handleClick === 1 && "tab-active text-white"} tab font-bold [--tab-bg:#ef4444] [--tab-border-color:#ef4444]`}
+          className={`${handleClick === 1 && "tab-active text-white"} text-xs lg:text-sm tab font-bold [--tab-bg:#ef4444] [--tab-border-color:#ef4444]`}
         >
           All
         </button>
         <button
           role="tab"
           onClick={() => userClick(2)}
-          className={`${handleClick === 2 && "tab-active text-white"} tab font-bold [--tab-bg:#ef4444] [--tab-border-color:#ef4444]`}
+          className={`${handleClick === 2 && "tab-active text-white"} text-xs lg:text-sm tab font-bold [--tab-bg:#ef4444] [--tab-border-color:#ef4444]`}
         >
           Plain Cashews
         </button>
         <button
           role="tab"
           onClick={() => userClick(3)}
-          className={`${handleClick === 3 && "tab-active text-white"} tab font-bold [--tab-bg:#ef4444] [--tab-border-color:#ef4444]`}
+          className={`${handleClick === 3 && "tab-active text-white"} text-xs lg:text-sm tab font-bold [--tab-bg:#ef4444] [--tab-border-color:#ef4444]`}
         >
           Roasted And Salted
         </button>
         <button
           role="tab"
           onClick={() => userClick(4)}
-          className={`${handleClick === 4 && "tab-active text-white"} tab font-bold [--tab-bg:#ef4444] [--tab-border-color:#ef4444]`}
+          className={`${handleClick === 4 && "tab-active text-white"} text-xs lg:text-sm tab font-bold [--tab-bg:#ef4444] [--tab-border-color:#ef4444]`}
         >
           Value Added
         </button>
@@ -72,6 +72,35 @@ export default function Home() {
       {/* home page contents */}
       <HomeBanner imageNumber={1} />
       <BestSeller/>
+      {/* banner image */}
+      <div className="p-3">
+  <div className="lg:flex w-full gap-3">
+    <div className="rounded-xl shadow-2xl overflow-hidden">
+      <div className="home-banner-wrapper relative">
+        <HomeBanner imageNumber={1} />
+      </div>
+    </div>
+    <div className="rounded-xl shadow-2xl mt-2 overflow-hidden">
+      <div className="home-banner-wrapper relative">
+        <HomeBanner imageNumber={2} />
+      </div>
+    </div>
+  </div>
+
+  <div className="lg:flex w-full gap-3 mt-3">
+    <div className="rounded-xl shadow-2xl overflow-hidden">
+      <div className="home-banner-wrapper relative">
+        <HomeBanner imageNumber={3} />
+      </div>
+    </div>
+    <div className="rounded-xl shadow-2xl mt-2 overflow-hidden">
+      <div className="home-banner-wrapper relative">
+        <HomeBanner imageNumber={4} />
+      </div>
+    </div>
+  </div>
+</div>
+
     </main>
   );
 }
