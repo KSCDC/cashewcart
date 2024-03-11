@@ -2,6 +2,7 @@ import { useState } from "react"
 import { productData } from "../../constants"
 import ProductCard from "../../Components/ProductCard"
 import HomeBanner from "./HomeBanner"
+import BestSeller from "./BestSeller"
 
 export default function Home() {
     // state to track user click on which tab
@@ -62,6 +63,7 @@ export default function Home() {
             </div>
             {/* home page contents */}
             <HomeBanner imageNumber={1}/>
+            <BestSeller/>
         </main>
     )
 }
