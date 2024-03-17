@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { IoStarSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { BACKEND_URL } from "../../constants";
 
 const productReview = [
   {
@@ -50,14 +51,14 @@ function ProductBanner({
   // packet_weights,
   // speciality
 }) {
-  // const [mainImage, setMainImage] = useState(product_images[0]);
+  const [mainImage, setMainImage] = useState(product_images[0].product_image);
   // const [selectedPriceIndex, setSelectedPriceIndex] = useState(0);
   // const [isModalOpen, setIsModalOpen] = useState(false);
   // const [userReview, setUserReview] = useState("");
 
-  // const handleImageClick = (clickedImage) => {
-  //   setMainImage(clickedImage);
-  // };
+  const handleImageClick = (clickedImage) => {
+    setMainImage(clickedImage);
+  };
 
   // const handlePriceSelect = (index) => {
   //   setSelectedPriceIndex(index);
@@ -86,29 +87,36 @@ function ProductBanner({
     <div>
       <main className="grid lg:flex gap-4 p-4">
         {/* first section alternative images */}
-        {/* <div className="flex lg:flex-col gap-2">
-          <button onClick={() => handleImageClick(product_images[0])} className="border rounded-lg border-red-500">
+        <div className="flex lg:flex-col gap-2">
+          <button onClick={() => handleImageClick(product_images[0].product_image)} className="border rounded-lg border-red-500">
             <img
-              src={product_images[0]}
+              src={`${BACKEND_URL}${product_images[0].product_image}`}
               className="h-44 object-contain w-44"
               alt="product image"
             />
           </button>
-          <button onClick={() => handleImageClick(product_images[1])} className="border rounded-lg border-red-500">
+          <button onClick={() => handleImageClick(product_images[1].product_image)} className="border rounded-lg border-red-500">
             <img
-              src={product_images[1]}
+            src={`${BACKEND_URL}${product_images[1].product_image}`}
               className="h-44 object-contain w-44"
-              alt="product image"
+              alt={product_images[0].product_image}
             />
           </button>
-        </div> */}
+          <button onClick={() => handleImageClick(product_images[2].product_image)} className="border rounded-lg border-red-500">
+            <img
+            src={`${BACKEND_URL}${product_images[2].product_image}`}
+              className="h-44 object-contain w-44"
+              alt={product_images[0].product_image}
+            />
+          </button>
+        </div>
         {/* second section full height banner image */}
         <div className="lg:flex items-start">
-          {/* <img
-            src={mainImage}
+          <img
+            src={`${BACKEND_URL}${mainImage}`}
             className="lg:h-screen lg:w-1/2 w-full object-contain hover:scale-150 transition duration-700"
             alt="product image"
-          /> */}
+          />
           {/* third section display the product name and details */}
           <div className="max-w-xl">
             <h3 className="text-4xl font-bold">{name}</h3>
