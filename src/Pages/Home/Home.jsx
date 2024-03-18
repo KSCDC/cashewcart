@@ -9,6 +9,7 @@ function Home() {
     <FeaturedProducts/>
     <Banner image={"/banner/hero-1.png"}/>
     <BestSellers/>
+    <Banner image={"/banner/hero-2.png"}/>
    </main>
   )
 }

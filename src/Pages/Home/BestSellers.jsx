@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BACKEND_URL } from '../../constants';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import Loading from '../../Components/Loading';
+import { Link } from 'react-router-dom';
 
 function BestSellers() {
     const [products, setProducts] = useState([]);
@@ -59,15 +60,19 @@ function BestSellers() {
                                 name={data.product.product.name}
                                 description={data.product.product.description}
                                 image={data.product.product.product_images[0].product_image}
+                                selling_price={data.product.selling_price}
                             />
                         ))
                     ) : (
-                        products.slice(0, 4).map((data, index) => (
+                        products.slice(0, 8).map((data, index) => (
                             <BestSellerCard
                                 key={index}
                                 name={data.product.product.name}
                                 description={data.product.product.description}
                                 image={data.product.product.product_images[0].product_image}
+                                selling_price={data.product.selling_price}
+
+
                             />
                         ))
                     )}
@@ -84,7 +89,7 @@ function BestSellers() {
     );
 }
 
-const BestSellerCard = ({ name, description, image }) => {
+const BestSellerCard = ({ name, description, image,selling_price }) => {
     return (
         <div className="bg-white rounded-lg overflow-hidden shadow-lg">
             <img
@@ -95,9 +100,12 @@ const BestSellerCard = ({ name, description, image }) => {
             <div className="p-6">
                 <h3 className="text-gray-900 font-semibold text-xl mb-2">{name}</h3>
                 <p className="text-gray-700 text-base mb-4">{description.slice(0, 72)}...</p>
-                <button className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 ease-in-out">
+        <p className="text-red-500 text-xl font-semibold">₹{selling_price}</p>
+              <Link to="/purchase">
+              <button className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 ease-in-out">
                     Show More
                 </button>
+              </Link>
             </div>
 
         
