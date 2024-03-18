@@ -71,6 +71,7 @@ function BestSellers() {
                                 description={data.product.product.description}
                                 image={data.product.product.product_images[0].product_image}
                                 selling_price={data.product.selling_price}
+                                id={data.product.id}
 
 
                             />
@@ -89,7 +90,7 @@ function BestSellers() {
     );
 }
 
-const BestSellerCard = ({ name, description, image,selling_price }) => {
+const BestSellerCard = ({ name, description, image,selling_price,id }) => {
     return (
         <div className="bg-white rounded-lg overflow-hidden shadow-lg">
             <img
@@ -103,7 +104,7 @@ const BestSellerCard = ({ name, description, image,selling_price }) => {
         <p className="text-red-500 text-xl font-semibold">₹{selling_price}</p>
               <Link to="/purchase">
               <button className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 ease-in-out">
-                    Show More
+                    Show More {id}
                 </button>
               </Link>
             </div>
