@@ -19,15 +19,19 @@ function Purchase() {
   
 
     
-
+    console.log(response)
   return (
     <div className='min-h-screen'>
       <button className='btn bg-red-500 text-white hover:bg-red-600' onClick={() => history.back()}>
         <IoMdArrowRoundBack/> Back {state.id}
       </button>
-    
-        <ProductBanner  {...response} />
-  
+       <div className="grid grid-cols- lg:grid-cols-3 gap-2">
+       {
+            product.map((data,index) => (
+                <ProductBanner key={index} {...data} />
+            ))
+        }
+       </div>
     </div>
   )
 }

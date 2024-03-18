@@ -41,7 +41,7 @@ export default function Home() {
         </button>
       </div>
       {/* home page contents */}
-      {/* <HomeBanner imageNumber={1} />
+      <HomeBanner imageNumber={1} />
       <BestSeller/>
       <div className="p-3">
         <div className="lg:flex w-full gap-3">
@@ -69,7 +69,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
     </main>
   );
 }

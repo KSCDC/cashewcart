@@ -9,7 +9,7 @@ function ProductCard({name,image,id,description }) {
       <img className="h-80 w-full object-contain" src={`${BACKEND_URL}${image}`} alt={`${BACKEND_URL}${image}`} />
       <div className="p-4">
         <h2 className="text-xl font-semibold text-gray-800 mb-2">{name}</h2>
-        <p className="text-gray-700">{description.slice(0, 50)}...</p>
+        {/* <p className="text-gray-700">{description.slice(0, 50)}...</p> */}
        <div className="flex justify-between items-center">
        {/* <div className='flex items-center'>
         <h2 className='font-bold'>Rating: </h2>
