@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IoLocationOutline, IoCartOutline,IoClose,IoHomeOutline } from "react-icons/io5";
 import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
+import { useAuth } from '../Hooks/AuthContext';
 
 
 function Navbar() {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -26,14 +28,15 @@ function Navbar() {
       {/* <IoLocationOutline className='text-xl' /> */}
     </Link>
   ));
-
+  const {isLoggedIn} = useAuth()
+  console.log(isLoggedIn)
   // Simplified Login/Logout button (adapt to your use case)
   const loginLogoutButton = (
-    // <Link to={isLoggedIn ? "/" : "/login"}>
+    <Link to={isLoggedIn ? "/" : "/login"}>
       <button className='px-4 py-2 bg-red-500 text-white rounded-lg'>
-        Login
+       {isLoggedIn ? "Home" : " Login"}
       </button>
-    // </Link>
+    </Link>
   );
 
   const mobileNavbarClasses = `
