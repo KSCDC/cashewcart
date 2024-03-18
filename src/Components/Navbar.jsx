@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IoLocationOutline, IoCartOutline,IoClose,IoHomeOutline } from "react-icons/io5";
 import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
-import { useAuth } from '../Hook/AuthContext';
+
 
 function Navbar() {
-  const { isLoggedIn } = useAuth(); // Access login status from AuthContext
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -29,11 +29,11 @@ function Navbar() {
 
   // Simplified Login/Logout button (adapt to your use case)
   const loginLogoutButton = (
-    <Link to={isLoggedIn ? "/" : "/login"}>
+    // <Link to={isLoggedIn ? "/" : "/login"}>
       <button className='px-4 py-2 bg-red-500 text-white rounded-lg'>
-        {isLoggedIn ? "Logout" : "Login"}
+        Login
       </button>
-    </Link>
+    // </Link>
   );
 
   const mobileNavbarClasses = `

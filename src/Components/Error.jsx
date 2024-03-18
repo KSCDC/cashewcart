@@ -9,7 +9,7 @@ function Error() {
     <div className='min-h-screen flex items-center justify-center'>
       <div>
       <h3 className="text-6xl font-medium text-center">404 Not Found</h3>
-      <p className='mt-6 mb-6 font-bold tracking-wide'>Your visited page not found. You may go home page try gain after login</p>
+      <p className='mt-6 mb-6 font-bold tracking-wide'>Your visited page not found. You may go home page try again</p>
       <Link to="/" className='btn mx-auto w-full bg-red-500 hover:bg-red-400 text-white'>Back To Home</Link>
       </div>
     </div>
