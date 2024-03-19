@@ -6,6 +6,8 @@ import { useAuth } from '../Hooks/AuthContext';
 
 
 function Navbar() {
+  const { isLoggedIn, login, logout } = useAuth();
+  console.log(localStorage.getItem("isLoggedIn"))
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -28,8 +30,8 @@ function Navbar() {
       {/* <IoLocationOutline className='text-xl' /> */}
     </Link>
   ));
-  const {isLoggedIn} = useAuth()
-  console.log(isLoggedIn)
+
+  console.log("Login",isLoggedIn)
   // Simplified Login/Logout button (adapt to your use case)
   const loginLogoutButton = (
     <Link to={isLoggedIn ? "/" : "/login"}>
