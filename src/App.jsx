@@ -6,6 +6,7 @@ import SecondNav from "./Components/SecondNav";
 import Purchase from "./Pages/Purchase/Purchase";
 import Login from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
+import UserPage from "./Pages/UserPage/UserPage";
 
 export default function App(){
   return(
@@ -17,6 +18,7 @@ export default function App(){
       <Route path="/" element={<Home/>}></Route>
       <Route path="/login" element={<Login/>}/>
       <Route path="/register" element={<Register/>}/>
+      <Route path="/profile" element={<UserPage/>}/>
       <Route path="/purchase" element={<Purchase/>}></Route>
     </Routes>
     </div>

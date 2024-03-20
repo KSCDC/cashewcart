@@ -18,6 +18,8 @@ function Purchase() {
     .catch((err) => console.log("API CALL FAILED"))
     setIsLoading(false)
     },[])
+
+    
     let {state} = useLocation()
     console.log(response.results)
 

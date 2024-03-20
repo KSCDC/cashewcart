@@ -1,12 +1,22 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../../constants";
+import useAuthStatus from "../../Hooks/useAuthStatus";
 
 function Login() {
+
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate()
+    // allready logged user can access the page
+    const isLoggedIn = useAuthStatus()
+    if(isLoggedIn) {
+      navigate("/")
+    }
+    
+
   const handleSubmit = async (e) => {
     e.preventDefault();
   
@@ -31,7 +41,7 @@ function Login() {
         // Show success message or redirect to dashboard
         console.log('Login successful');
         localStorage.setItem('isLoggedIn', true);
-        navigate("/");
+        history.back()
       } else {
         throw new Error('Login failed');
       }
@@ -39,8 +49,8 @@ function Login() {
       setError(error.message);
     }
   };
-  
-  
+
+
 
   return (
     <div className="flex justify-center h-screen">
