@@ -72,7 +72,7 @@ function Cart() {
 
     if (!isLoggedIn) return <Error />;
 
-    
+
 
     const handleIncreaseQuantity = (id) => {
 
@@ -106,73 +106,73 @@ function Cart() {
 
     };
 
-    
+
 
     return (
 
         <div className='min-h-screen'>
 
-        <h1 className="text-3xl font-bold mb-4">Your Cart</h1>
+            <h1 className="text-3xl font-bold mb-4">Your Cart</h1>
 
-        {error && <Error message={error} />}
+            {error && <Error message={error} />}
 
-        <table className="table-auto w-full">
+            <table className="table-auto w-full">
 
-          <thead>
+                <thead>
 
-            <tr>
+                    <tr>
 
-              <th className="px-4 py-2">Product Name</th>
+                        <th className="px-4 py-2">Product Name</th>
 
-              <th className="px-4 py-2">Image</th>
+                        <th className="px-4 py-2">Image</th>
 
-              <th className="px-4 py-2">Price</th>
+                        <th className="px-4 py-2">Price</th>
 
-              <th className="px-4 py-2">Weight</th>
+                        <th className="px-4 py-2">Weight</th>
 
-              <th className="px-4 py-2">Quantity</th>
+                        <th className="px-4 py-2">Quantity</th>
 
-            </tr>
+                    </tr>
 
-          </thead>
+                </thead>
 
-          <tbody>
+                <tbody>
 
-            {cartProducts.map((data, index) => (
+                    {cartProducts.map((data, index) => (
 
-              <tr key={data.id} className="border-b border-gray-200 hover:bg-gray-100">
+                        <tr key={data.id} className="border-b border-gray-200 hover:bg-gray-100">
 
-                <td className="px-4 py-2">{data.product.product.name}</td>
+                            <td className="px-4 py-2">{data.product.product.name}</td>
 
-                <td className="px-4 py-2">
+                            <td className="px-4 py-2">
 
-                  <img src={`${BACKEND_URL}${data.product.product.product_images[0].product_image}`} alt={data.product.product.name} className="w-40 h-40 object-contain" />
+                                <img src={`${BACKEND_URL}${data.product.product.product_images[0].product_image}`} alt={data.product.product.name} className="w-40 h-40 object-contain" />
 
-                </td>
+                            </td>
 
-                <td className="px-4 py-2">₹{data.product.selling_price}</td>
+                            <td className="px-4 py-2">₹{data.product.selling_price}</td>
 
-                <td className="px-4 py-2">{data.product.weight_in_grams} grams</td>
+                            <td className="px-4 py-2">{data.product.weight_in_grams} grams</td>
 
-                <td className="px-4 py-2">
+                            <td className="px-4 py-2">
 
-                  <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={() => handleIncreaseQuantity(data.id)}>
+                                <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={() => handleIncreaseQuantity(data.id)}>
 
-                    +
+                                    +
 
-                  </button>
+                                </button>
 
-                </td>
+                            </td>
 
-              </tr>
+                        </tr>
 
-            ))}
+                    ))}
 
-          </tbody>
+                </tbody>
 
-        </table>
+            </table>
 
-      </div>
+        </div>
 
     );
 
