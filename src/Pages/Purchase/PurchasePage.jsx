@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { BACKEND_URL } from '../../constants';
 import Loading from '../../Components/Loading';
+import { Link } from 'react-router-dom';
+import useAuthStatus from '../../Hooks/useAuthStatus';
 
 function PurchasePage({ id, name,description, product_images,product_variants }) {
   // Check if product_images is not defined or not an array
@@ -14,6 +16,7 @@ function PurchasePage({ id, name,description, product_images,product_variants })
   const [primaryImage,setPrimaryImage] = useState(product_images[0].product_image)
   const [productPrice,setProductPrice] = useState(product_variants[0].selling_price)
   const [productWeight,setProductWeight] = useState(product_variants[0].weight_in_grams)
+  const loginStatus = useAuthStatus()
   return (
     <main className='grid lg:flex w-full'>
      {/* first half */}
@@ -58,7 +61,16 @@ function PurchasePage({ id, name,description, product_images,product_variants })
        </div>
        {/* buy now buttons */}
        <div className='mt-6'>
-        <button className='w-full btn bg-red-500 hover:bg-red-800 text-white'>Add to cart</button>
+       {
+        loginStatus ?  (
+          <button className='w-full btn bg-red-500 hover:bg-red-800 text-white'>Add to cart</button> 
+        ) :
+        (
+          <Link to="/login">
+            <button className='w-full btn bg-red-500 hover:bg-red-800 text-white'>Login</button> 
+          </Link>
+        )
+       }
        </div>
      </div>
     </main>
