@@ -3,14 +3,15 @@ import { Link } from 'react-router-dom';
 import { IoLocationOutline, IoCartOutline,IoClose,IoHomeOutline } from "react-icons/io5";
 import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
 import { useAuth } from '../Hooks/AuthContext';
+import useAuthStatus from '../Hooks/useAuthStatus';
 
 
 function Navbar() {
-  const { isLoggedIn, login, logout } = useAuth();
-  console.log(localStorage.getItem("isLoggedIn"))
+  
+  
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const isLoggedIn = useAuthStatus()
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -31,12 +32,12 @@ function Navbar() {
     </Link>
   ));
 
-  console.log("Login",isLoggedIn)
+  
   // Simplified Login/Logout button (adapt to your use case)
-  const loginLogoutButton = (
+  const ButtonBasedOnLoginStatus = (
     <Link to={isLoggedIn ? "/" : "/login"}>
-      <button className='px-4 py-2 bg-red-500 text-white rounded-lg'>
-       {isLoggedIn ? "Profile" : " Login"}
+      <button className='px-4 py-2 bg-red-500 text-white rounded-lg font-bold'>
+       {isLoggedIn ? "Profile" : "Login"}
       </button>
     </Link>
   );
@@ -89,7 +90,7 @@ function Navbar() {
             </a>
           </div>
           {/* Login/Logout button */}
-          {loginLogoutButton}
+          {ButtonBasedOnLoginStatus}
         </div>
       </nav>
       <div className='lg:hidden'>
@@ -120,7 +121,7 @@ function Navbar() {
               <img src="/logo/playstore.png" className='h-10' alt="Play Store" />
             </a>
           </div>
-          {loginLogoutButton}
+          {ButtonBasedOnLoginStatus}
           <button onClick={toggleMenu} className="text-2xl text-white rounded-lg">
             <IoClose/>
           </button>
