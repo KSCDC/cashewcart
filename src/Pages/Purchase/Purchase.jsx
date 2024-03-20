@@ -21,12 +21,11 @@ function Purchase() {
 
     
     let {state} = useLocation()
-    console.log(response.results)
 
     if(isLoading){
       return <Loading/>
     }
-    console.log(response)
+
   return (
     <main className="min-h-screen">
         <PurchasePage {...response}/>
