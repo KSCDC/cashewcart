@@ -9,7 +9,7 @@ function Login() {
   const navigate = useNavigate()
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+  
     try {
       const response = await fetch(`${BACKEND_URL}/api/user/login/`, {
         method: 'POST',
@@ -18,12 +18,20 @@ function Login() {
         },
         body: JSON.stringify({ email, password })
       });
-
+  
       if (response.ok) {
+        // Parse the response body as JSON
+        const responseData = await response.json();
+        console.log('Response:', responseData);
+  
+        // Save access and refresh tokens to local storage
+        localStorage.setItem('access_token', responseData.token.access);
+        localStorage.setItem('refresh_token', responseData.token.refresh);
+  
         // Show success message or redirect to dashboard
         console.log('Login successful');
         localStorage.setItem('isLoggedIn', true);
-        navigate("/")
+        navigate("/");
       } else {
         throw new Error('Login failed');
       }
@@ -31,6 +39,8 @@ function Login() {
       setError(error.message);
     }
   };
+  
+  
 
   return (
     <div className="flex justify-center h-screen">

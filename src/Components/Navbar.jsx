@@ -36,7 +36,7 @@ function Navbar() {
   const loginLogoutButton = (
     <Link to={isLoggedIn ? "/" : "/login"}>
       <button className='px-4 py-2 bg-red-500 text-white rounded-lg'>
-       {isLoggedIn ? "Home" : " Login"}
+       {isLoggedIn ? "Profile" : " Login"}
       </button>
     </Link>
   );

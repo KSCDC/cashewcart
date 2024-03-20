@@ -4,7 +4,8 @@ import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import Loading from '../../Components/Loading';
 import { Link } from 'react-router-dom';
 
-function BestSellers() {
+
+function TrendingProducts() {
     const [products, setProducts] = useState([]);
     const [page, setPage] = useState(1);
     const [hasPrevious, setHasPrevious] = useState(false);
@@ -13,7 +14,7 @@ function BestSellers() {
     const [loading,setLoading] = useState(false)
     useEffect(() => {
         setLoading(true)
-        fetch(`${BACKEND_URL}/api/product/bestsellers/?page=${page}`)
+        fetch(`${BACKEND_URL}/api/product/trending/?page=${page}`)
             .then((res) => res.json())
             .then((data) => {
                 setProducts(data.results);
@@ -48,14 +49,14 @@ function BestSellers() {
                     <FaArrowRight />
                 </button>
             </div>
-            <h3 className="text-center text-3xl font-bold uppercase">Our Best Sellers</h3>
+            <h3 className="text-center text-3xl font-bold uppercase">Our Trending Products</h3>
             {
                 loading ? <Loading/> : (
                     <div className="grid grid-cols-1 lg:grid-cols-4 gap-2">
                     {showMore ? (
                         
                         products.map((data, index) => (
-                            <BestSellerCard
+                            <TrendingProductCard
                                 key={index}
                                 id={data.product.product.id}
                                 name={data.product.product.name}
@@ -66,7 +67,7 @@ function BestSellers() {
                         ))
                     ) : (
                         products.slice(0, 8).map((data, index) => (
-                            <BestSellerCard
+                            <TrendingProductCard
                                 key={index}
                                 name={data.product.product.name}
                                 description={data.product.product.description}
@@ -91,11 +92,10 @@ function BestSellers() {
     );
 }
 
-const BestSellerCard = ({ name, description, image,selling_price,id }) => {
+const TrendingProductCard = ({ name, description, image,selling_price,id }) => {
     return (
         <Suspense fallback={<Loading/>}>
-
-<div className="bg-white rounded-lg overflow-hidden shadow-lg">
+            <div className="bg-white rounded-lg overflow-hidden shadow-lg">
             <img
                 className="w-full h-72 object-contain"
                 src={`${BACKEND_URL}${image}`}
@@ -111,11 +111,11 @@ const BestSellerCard = ({ name, description, image,selling_price,id }) => {
                 </button>
               </Link>
             </div>
-
-        
-        </div>
+            </div>
         </Suspense>
+
+      
     );
 };
 
-export default BestSellers;
+export default TrendingProducts;

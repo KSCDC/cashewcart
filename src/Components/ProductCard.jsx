@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { BACKEND_URL } from '../constants';
 import { Link } from 'react-router-dom';
+import Loading from './Loading';
 
 function ProductCard({ product, selling_price,id }) {
   return (
-    <div className="bg-white rounded-lg overflow-hidden shadow-lg">
+    <Suspense fallback={<Loading/>}>
+      <div className="bg-white rounded-lg overflow-hidden shadow-lg">
       <img
         className="w-full h-72 object-contain"
         src={`${BACKEND_URL}${product.product_images[0].product_image}`}
@@ -22,6 +24,7 @@ function ProductCard({ product, selling_price,id }) {
         </Link>
       </div>
     </div>
+    </Suspense>
   );
 }
 

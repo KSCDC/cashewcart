@@ -39,34 +39,41 @@ function Register() {
             setError(error.message);
         }
     };
-
     const handleTokenSubmit = async (e) => {
         e.preventDefault();
         if (token.trim() === '') {
             setError('Token cannot be empty');
             return;
         }
-
+    
         try {
-            const response = await fetch(`${BACKEND_URL}/api/user/verify/?token=${token}`, {
+            let url = `${BACKEND_URL}/api/user/verify/?token=${token}`;
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
-            if(response.ok){
-                setCurrentPage(3)
+    
+            if (response.ok) {
+                // Handle successful token verification
+                const data = await response.json();
+                // Assuming the access token is returned in the response data
+                const accessToken = data.access_token;
+                // Store access token to local storage
+                localStorage.setItem('access_token', accessToken);
+                setCurrentPage(3);
+                console.log('Token verified successfully');
+            } else {
+                // Handle error response
+                const errorMessage = await response.text();
+                throw new Error(errorMessage || 'Failed to verify token');
             }
-            if (!response.ok) {
-                throw new Error('Failed to verify token');
-            }
-            // Handle successful token verification
-            console.log('Token verified successfully');
         } catch (error) {
             setError(error.message);
         }
     };
-
+    
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         const { name, phone_number, password, password2 } = formData;
@@ -80,7 +87,8 @@ function Register() {
         }
 
         try {
-            const response = await fetch(`${BACKEND_URL}/api/user/register/?token=${token}`, {
+            let formUrl = `${BACKEND_URL}/api/user/register/?token=${token}`
+            const response = await fetch(formUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
