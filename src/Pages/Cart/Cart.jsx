@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import useAuthStatus from '../../Hooks/useAuthStatus';
 import Error from '../../Components/Error';
+import { BACKEND_URL } from '../../constants';
 
 function Cart() {
     const isLoggedIn = useAuthStatus();
@@ -10,7 +11,8 @@ function Cart() {
     useEffect(() => {
         if (isLoggedIn) {
             const accessToken = localStorage.getItem('access_token');
-            fetch('/api/product/cart/list/', {
+            const url=`${BACKEND_URL}/api/product/cart/list/`
+            fetch(url, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
