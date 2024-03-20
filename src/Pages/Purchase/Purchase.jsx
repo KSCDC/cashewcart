@@ -26,6 +26,7 @@ function Purchase() {
     if(isLoading){
       return <Loading/>
     }
+    console.log(response)
   return (
     <main className="min-h-screen">
         <PurchasePage {...response}/>
