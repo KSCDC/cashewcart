@@ -11,10 +11,10 @@ function Login() {
   const [error, setError] = useState('');
   const navigate = useNavigate()
     // allready logged user can access the page
-    const isLoggedIn = useAuthStatus()
-    if(isLoggedIn) {
-      navigate("/")
-    }
+    // const isLoggedIn = useAuthStatus()
+    // if(isLoggedIn) {
+    //   navigate("/")
+    // }
     
 
   const handleSubmit = async (e) => {

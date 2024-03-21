@@ -57,7 +57,7 @@ function BestSellers() {
                         products.map((data, index) => (
                             <BestSellerCard
                                 key={index}
-                                id={data.product.product.id}
+                                id={data.product.product.product_id}
                                 name={data.product.product.name}
                                 description={data.product.product.description}
                                 image={data.product.product.product_images[0].product_image}
@@ -72,7 +72,7 @@ function BestSellers() {
                                 description={data.product.product.description}
                                 image={data.product.product.product_images[0].product_image}
                                 selling_price={data.product.selling_price}
-                                id={data.product.product.id}
+                                id={data.product.product.product_id}
 
 
                             />
