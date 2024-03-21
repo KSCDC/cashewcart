@@ -103,7 +103,7 @@ console.log(product_variants[0].product_variant_id)
           ) : (
             loginStatus ? (
               <button onClick={handleAddToCart} className='w-full btn bg-red-500 hover:bg-red-800 text-white'>
-                Add to Cartgit
+                Add to Cart
               </button>
             ) : (
               <Link to='/login'>
