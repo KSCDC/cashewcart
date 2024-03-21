@@ -6,19 +6,19 @@ import useAuthStatus from '../../Hooks/useAuthStatus';
 import useTokenExpirationCheck from '../../Hooks/useTokenExpirationCheck';
 import RefreshToken from '../../Hooks/RefreshToken';
 
-function PurchasePage({ id, name, description, product_images, product_variants }) {
+function PurchasePage({ product_variant_id, name, description, product_images, product_variants }) {
   // Check if product_images is not defined or not an array
   if (!product_images || !Array.isArray(product_images) || product_images.length === 0) {
     return <Loading />;
   }
-
+console.log(product_variants[0].product_variant_id)
   // global hooks for this component
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [primaryImage, setPrimaryImage] = useState(product_images[0].product_image)
   const [productPrice, setProductPrice] = useState(product_variants[0].selling_price)
   const [productWeight, setProductWeight] = useState(product_variants[0].weight_in_grams)
-  const [productId,setProductId] = useState(product_variants[0].id)
+  const [productId,setProductId] = useState(product_variants[0].product_variant_id)
   const loginStatus = useAuthStatus();
   const isTokenExpired = useTokenExpirationCheck(); // Call the hook and get token expiration status
 
@@ -103,7 +103,7 @@ function PurchasePage({ id, name, description, product_images, product_variants 
           ) : (
             loginStatus ? (
               <button onClick={handleAddToCart} className='w-full btn bg-red-500 hover:bg-red-800 text-white'>
-                Add to Cart {productId}
+                Add to Cart
               </button>
             ) : (
               <Link to='/login'>
