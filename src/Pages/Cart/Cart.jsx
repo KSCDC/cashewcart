@@ -11,6 +11,7 @@ function Cart() {
     const [cartProducts, setCartProducts] = useState([]);
     const [error, setError] = useState(null);
     const isTokenExpired = useTokenExpirationCheck();
+    console.log(localStorage.access_token)
 
     useEffect(() => {
         const fetchData = async () => {
