@@ -5,8 +5,10 @@ import Loading from '../../Components/Loading';
 import useAuthStatus from '../../Hooks/useAuthStatus';
 import useTokenExpirationCheck from '../../Hooks/useTokenExpirationCheck';
 import RefreshToken from '../../Hooks/RefreshToken';
+import { IoStarSharp } from "react-icons/io5";
 
-function PurchasePage({ product_variant_id, name, description, product_images, product_variants }) {
+
+function PurchasePage({ product_variant_id, name, description, product_images, product_variants,average_rating }) {
   // Check if product_images is not defined or not an array
   if (!product_images || !Array.isArray(product_images) || product_images.length === 0) {
     return <Loading />;
@@ -81,6 +83,12 @@ console.log(product_variants[0].product_variant_id)
         <div className="flex space-x-2 items-baseline">
           <h3 className='text-2xl font-bold'>{productWeight == 1000.00 ? "1Kg" : `${productWeight}gm`}</h3>
           <h3 className='text-xl text-green-500 font-bold'>₹{productPrice}</h3>
+        </div>
+        <div className="flex items-center">
+          <p className='flex items-center text-lg text-yellow-400'>{Array.from({length: average_rating}).map((_,index) => (
+            <IoStarSharp key={index}/>
+          ))}</p>
+        <p>({average_rating})</p>
         </div>
         <p className='mt-4 line-clamp-6 text-justify'>{description}</p>
         {/* product variants price and weights */}

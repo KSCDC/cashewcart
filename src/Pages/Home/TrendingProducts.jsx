@@ -112,8 +112,8 @@ const TrendingProductCard = ({ name, description, image, selling_price, id, rati
                     <div className="flex items-center justify-between">
                         {/* product rating */}
                         <div className="flex items-center text-yellow-400">
-                            {Array.from({ length: rating }).map((_index) => (
-                                <IoStarSharp className='text-lg' />
+                            {Array.from({ length: rating }).map((_,index) => (
+                                <IoStarSharp key={index} className='text-lg' />
                             ))}
                             <span className='text-black'>({rating})</span>
                         </div>
