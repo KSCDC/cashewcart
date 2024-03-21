@@ -99,7 +99,7 @@ function Cart() {
                         <th className="px-4 py-2">Image</th>
                         <th className="px-4 py-2">Price</th>
                         <th className="px-4 py-2">Weight</th>
-                        <th className="px-4 py-2">Quantity</th>
+                        <th className="px-4 py-2">Purchase</th>
                         <th className="px-4 py-2">Actions</th> {/* Added column for delete action */}
                     </tr>
                 </thead>
@@ -113,8 +113,8 @@ function Cart() {
                             <td className="px-4 py-2">₹{data.product.selling_price}</td>
                             <td className="px-4 py-2">{data.product.weight_in_grams} grams</td>
                             <td className="px-4 py-2">
-                                <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={() => handleIncreaseQuantity(data.id)}>
-                                    +
+                                <button className="bg-red-500 text-white px-4 py-2 rounded" >
+                                    Buy Now
                                 </button>
                             </td>
                             <td className="px-4 py-2">
