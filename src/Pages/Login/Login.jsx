@@ -41,7 +41,7 @@ function Login() {
         // Show success message or redirect to dashboard
         console.log('Login successful');
         localStorage.setItem('isLoggedIn', true);
-        history.back()
+        navigate("/")
       } else {
         throw new Error('Login failed');
       }

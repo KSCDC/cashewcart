@@ -5,19 +5,62 @@ import Error from '../../Components/Error';
 import { BACKEND_URL } from '../../constants';
 import useTokenExpirationCheck from '../../Hooks/useTokenExpirationCheck';
 import RefreshToken from '../../Hooks/RefreshToken';
+import { useNavigate } from 'react-router-dom';
+
+function CartProductCard({ image, title, price, weight }) {
+    // Parse weight string and convert to kg if > 1000 grams
+    const weightValue = parseFloat(weight.split(' ')[0]);
+    const displayWeight = weightValue >= 1000 ? `${(weightValue / 1000).toFixed(1)} Kg` : `${weightValue} gm`;
+
+    return (
+        <div className="overflow-x-auto">
+        <table className="table">
+          <tbody>
+            {/* row 1 */}
+            <tr>
+              <td>
+                <div className="flex items-center gap-3">
+                  <div className="avatar">
+                    <div className="w-12 h-12 object-contain">
+                      <img src={`${BACKEND_URL}${image}`} alt="Product Image" />
+                    </div>
+                  </div>
+                  <div className="flex flex-col"> {/* Changed div to flex container */}
+                    <div className="font-bold ">{title.slice(0,32)}...</div> {/* Added truncate class */}
+                    <div className="text-sm text-red-500 font-bold">{displayWeight}</div>
+                  </div>
+                </div>
+              </td>
+              <td className='font-bold'>
+                {price}
+              </td>
+              <td>Purple</td>
+              <td>
+                <span className='font-bold text-xl'>{price}</span>
+              </td>
+            
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    );
+}
 
 function Cart() {
     const isLoggedIn = useAuthStatus();
     const [cartProducts, setCartProducts] = useState([]);
     const [error, setError] = useState(null);
     const isTokenExpired = useTokenExpirationCheck();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const access_token = localStorage.getItem("access_token");
                 if (!access_token || isTokenExpired) {
-                    throw new Error("User not logged in or token expired");
+                    navigate("/login");
+                    return;
                 }
                 
                 const response = await fetch(`${BACKEND_URL}/api/product/cart/list/`, {
@@ -37,32 +80,23 @@ function Cart() {
         };
 
         fetchData();
-    }, [isTokenExpired]);
+    }, [isTokenExpired, navigate]);
 
-    if (!isLoggedIn) return <Error />;
-
-    const handleIncreaseQuantity = (id) => {
-        const updatedCartProducts = cartProducts.map(product => {
-            if (product.id === id) {
-                return {
-                    ...product,
-                    product: {
-                        ...product.product,
-                        quantity: product.product.quantity + 1,
-                        selling_price: product.product.selling_price * (product.product.quantity + 1)
-                    }
-                };
-            }
-            return product;
-        });
+    // Increase product quantity
+    const handleIncreaseQuantity = (index) => {
+        const updatedCartProducts = [...cartProducts];
+        updatedCartProducts[index].product.quantity += 1;
+        updatedCartProducts[index].product.selling_price *= updatedCartProducts[index].product.quantity;
         setCartProducts(updatedCartProducts);
     };
 
-    const handleDeleteProduct = async (id) => {
+    // Delete product from cart
+    const handleDeleteProduct = async(id) => {
         try {
             const access_token = localStorage.getItem("access_token");
             if (!access_token || isTokenExpired) {
-                await RefreshToken();
+                RefreshToken();
+                return;
             }
             
             const response = await fetch(`${BACKEND_URL}/api/product/cart/${id}/`, {
@@ -87,42 +121,18 @@ function Cart() {
 
     return (
         <div className='min-h-screen'>
-            <h1 className="text-3xl font-bold mb-4">Your Cart</h1>
-            {error && <Error message={error} />}
-            <table className="table-auto w-full">
-                <thead>
-                    <tr>
-                        <th className="px-4 py-2">Product Name</th>
-                        <th className="px-4 py-2">Image</th>
-                        <th className="px-4 py-2">Price</th>
-                        <th className="px-4 py-2">Weight</th>
-                        <th className="px-4 py-2">Quantity</th>
-                        <th className="px-4 py-2">Actions</th> {/* Added column for delete action */}
-                    </tr>
-                </thead>
-                <tbody>
-                    {cartProducts.map((data, index) => (
-                        <tr key={data.id} className="border-b border-gray-200 hover:bg-gray-100">
-                            <td className="px-4 py-2">{data.product.product.name}</td>
-                            <td className="px-4 py-2">
-                                <img src={`${BACKEND_URL}${data.product.product.product_images[0].product_image}`} alt={data.product.product.name} className="w-40 h-40 object-contain" />
-                            </td>
-                            <td className="px-4 py-2">₹{data.product.selling_price}</td>
-                            <td className="px-4 py-2">{data.product.weight_in_grams} grams</td>
-                            <td className="px-4 py-2">
-                                <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={() => handleIncreaseQuantity(data.id)}>
-                                    +
-                                </button>
-                            </td>
-                            <td className="px-4 py-2">
-                                <button className="text-red-500 hover:text-red-700" onClick={() => handleDeleteProduct(data.id)}>
-                                    <AiOutlineDelete />
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <h1 className="text-2xl font-bold mb-4">Shopping Cart</h1>
+
+                {cartProducts.map((data, index) => (
+                    <CartProductCard 
+                        key={index}
+                        image={data.product.product.product_images[0].product_image} 
+                        title={data.product.product.name}
+                        price={data.product.selling_price}
+                        weight={data.product.weight_in_grams}
+                    />
+                ))}
+
         </div>
     );
 }
