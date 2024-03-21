@@ -84,7 +84,9 @@ function Cart() {
         } catch (error) {
             setError(error.message);
         }
+        window.location.reload()
     };
+  
 
     return (
         <div className='min-h-screen'>
@@ -116,7 +118,7 @@ function Cart() {
                                 </button>
                             </td>
                             <td className="px-4 py-2">
-                                <button className="text-red-500 hover:text-red-700" onClick={() => handleDeleteProduct(data.id)}>
+                                <button className="text-red-500 hover:text-red-700" onClick={() => handleDeleteProduct(data.product.product_variant_id)}>
                                     <AiOutlineDelete />
                                 </button>
                             </td>
