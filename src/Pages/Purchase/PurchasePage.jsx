@@ -21,9 +21,9 @@ console.log(product_variants[0].product_variant_id)
   const [productPrice, setProductPrice] = useState(product_variants[0].selling_price)
   const [productWeight, setProductWeight] = useState(product_variants[0].weight_in_grams)
   const [productId,setProductId] = useState(product_variants[0].product_variant_id)
+  const [selectedButton,setSelectedButton] = useState(0)
   const loginStatus = useAuthStatus();
   const isTokenExpired = useTokenExpirationCheck(); // Call the hook and get token expiration status
-
   // function to add the product to the cart
   const handleAddToCart = () => {
     if (isTokenExpired) {
@@ -42,7 +42,12 @@ console.log(product_variants[0].product_variant_id)
     .then(res => {
       setIsLoading(false); // Set loading state to false when request completes
       if (!res.ok) {
-        throw new Error('Failed to add product to cart');
+        RefreshToken();
+        let access_token = localStorage.getItem("access_token")
+    fetch(`${BACKEND_URL}/api/product/cart/${productId}/`, {
+      method: "POST",
+      headers: { "Authorization": `Bearer ${access_token}` }
+    })
       }
       return res.json();
     })
@@ -93,14 +98,15 @@ console.log(product_variants[0].product_variant_id)
         <p className='mt-4 line-clamp-6 text-justify'>{description}</p>
         {/* product variants price and weights */}
         <div className="flex items-center mt-6 gap-3">
-          {product_variants.filter((data) => data.is_available).map((data, index) => (
+          {product_variants.filter((data,index) => data.is_available).map((data, index) => (
             <button 
             onClick={() => {
+              setSelectedButton(index)
               setProductPrice(data.selling_price)
               setProductWeight(data.weight_in_grams)
-            }} className="h-28 w-32 bg-gray-200 justify-center items-center flex flex-col rounded-lg border-red-400 border" key={data.id}>
-              <h3 className='text-xl'>{data.weight_in_grams == 1000.00 ? "1Kg" : `${data.weight_in_grams}gm`}</h3>
-              <h2 className='font-bold text-lg text-red-500'>₹{data.selling_price}</h2>
+            }} className={`p-2 bg-gray-200 justify-center items-center flex flex-col rounded-lg border-red-400 border ${selectedButton === index ? "bg-red-500" : null}`} key={data.id}>
+              <h3 className={`font-bold text-lg ${selectedButton === index ? "text-white" : "text-red-500"}`}>{data.weight_in_grams == 1000.00 ? "1Kg" : `${data.weight_in_grams}gm`}</h3>
+              <h2 className={`font-bold text-lg ${selectedButton === index ? "text-white" : "text-red-500"}`}>₹{data.selling_price}</h2>
             </button>
           ))}
         </div>

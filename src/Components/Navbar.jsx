@@ -41,6 +41,12 @@ function Navbar() {
       </button>
     </Link>
   );
+
+  function LogOut(){
+    localStorage.clear()
+    window.location.reload()
+  }
+ 
   const DropDownMenu = () => {
     return (
       isLoggedIn ? (
@@ -53,7 +59,7 @@ function Navbar() {
               </a>
             </li>
             <li><a>Settings</a></li>
-            <li><a>Logout</a></li>
+            <li><button onClick={LogOut}>Logout</button></li>
        
         </>
       ) : <>

@@ -4,6 +4,7 @@ import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import Loading from '../../Components/Loading';
 import { Link } from 'react-router-dom';
 import { IoStarSharp } from "react-icons/io5";
+import { FaCartShopping } from 'react-icons/fa6';
 
 
 function TrendingProducts() {
@@ -112,15 +113,16 @@ const TrendingProductCard = ({ name, description, image, selling_price, id, rati
                     <div className="flex items-center justify-between">
                         {/* product rating */}
                         <div className="flex items-center text-yellow-400">
-                            {Array.from({ length: rating }).map((_,index) => (
+                            {Array.from({ length: rating }).map((_, index) => (
                                 <IoStarSharp key={index} className='text-lg' />
                             ))}
                             <span className='text-black'>({rating})</span>
                         </div>
                         {/* open product in purchase page */}
                         <Link to="/purchase" state={{ id: id }}>
-                            <button className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 ease-in-out">
-                                Show More
+                            <button className="flex items-center gap-3 mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 ease-in-out">
+                                Buy Now
+                                <FaCartShopping />
                             </button>
 
                         </Link>

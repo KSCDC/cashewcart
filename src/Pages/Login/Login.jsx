@@ -42,6 +42,7 @@ function Login() {
         console.log('Login successful');
         localStorage.setItem('isLoggedIn', true);
         navigate("/")
+        window.location.reload()
       } else {
         throw new Error('Login failed');
       }

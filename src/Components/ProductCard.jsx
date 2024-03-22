@@ -3,7 +3,7 @@ import { BACKEND_URL } from '../constants';
 import { Link } from 'react-router-dom';
 import Loading from './Loading';
 import { IoStarSharp } from "react-icons/io5";
-
+import { FaCartShopping } from "react-icons/fa6";
 function ProductCard({ product, selling_price,id }) {
   return (
     <Suspense fallback={<Loading/>}>
@@ -28,8 +28,9 @@ function ProductCard({ product, selling_price,id }) {
        </div>
         {/* open product in purchase page */}
        <Link to="/purchase" state={{id:product.product_id}}>
-        <button className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 ease-in-out">
-          Show More 
+        <button className="flex items-center gap-3 mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 ease-in-out">
+          Buy Now
+          <FaCartShopping/>
         </button>
         
         </Link>
