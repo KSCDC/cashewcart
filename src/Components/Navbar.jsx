@@ -100,9 +100,16 @@ function Navbar() {
             <IoLocationOutline className='text-xl mr-1' />
             <span className='text-xl hover:text-red-500 font-semibold'>Track</span>
           </Link>
-          <Link to="/cart" className='flex items-center'>
-            <IoCartOutline className='text-xl mr-1' />
-            <span className='text-xl hover:text-red-500 font-semibold'>Cart</span>
+          <Link to="/cart" className='flex items-center space-x-3'>
+          {isLoggedIn ? (
+            <div className="indicator ">
+            <FaShoppingCart className='text-xl'/>
+              <span className="badge badge-sm indicator-item">8</span>
+            </div>
+          ) : (
+            <FaShoppingCart className='text-xl'/>
+          )}
+        <span className='text-xl hover:text-red-500 font-semibold'>Cart</span>
           </Link>
         </div>
         {/* Buttons and download links */}
