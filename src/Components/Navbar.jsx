@@ -1,14 +1,14 @@
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { IoLocationOutline, IoCartOutline,IoClose,IoHomeOutline } from "react-icons/io5";
+import { IoLocationOutline, IoCartOutline, IoClose, IoHomeOutline } from "react-icons/io5";
 import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
 import { useAuth } from '../Hooks/AuthContext';
 import useAuthStatus from '../Hooks/useAuthStatus';
 
-
+import { FaUserLarge } from "react-icons/fa6";
 function Navbar() {
-  
-  
+
+
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isLoggedIn = useAuthStatus()
@@ -32,16 +32,37 @@ function Navbar() {
     </Link>
   ));
 
-  
+
   // Simplified Login/Logout button (adapt to your use case)
   const ButtonBasedOnLoginStatus = (
     <Link to={isLoggedIn ? "/profile" : "/login"}>
       <button className='px-4 py-2 bg-red-500 text-white rounded-lg font-bold'>
-       {isLoggedIn ? "Profile" : "Login"}
+        {isLoggedIn ? "Profile" : "Login"}
       </button>
     </Link>
   );
-
+  const DropDownMenu = () => {
+    return (
+      isLoggedIn ? (
+        <>
+          
+            <li>
+              <a className="justify-between">
+                Profile
+                <span className="badge">New</span>
+              </a>
+            </li>
+            <li><a>Settings</a></li>
+            <li><a>Logout</a></li>
+       
+        </>
+      ) : <>
+      <li>
+      <Link className='btn bg-red-500 text-white' to="/login">Login</Link>  </li>   
+            </>
+    );
+  }
+  
   const mobileNavbarClasses = `
     fixed z-50 top-0 left-0 w-full bg-gray-800 text-white py-4 px-6 flex flex-col items-center gap-4
     ${isMenuOpen ? 'justify-center' : 'hidden'}
@@ -58,15 +79,15 @@ function Navbar() {
         {/* Hamburger menu for mobile */}
         <div className='lg:hidden '>
           <button onClick={toggleMenu} className='p-2'>
-            {isMenuOpen ? 
-                <FaTimes className='text-xl' /> : 
-                <FaBars className='text-xl' />}
+            {isMenuOpen ?
+              <FaTimes className='text-xl' /> :
+              <FaBars className='text-xl' />}
           </button>
         </div>
         {/* Navigation links */}
         <div className={`lg:flex items-center gap-x-6 ${isMenuOpen ? 'flex flex-col lg:flex-row' : 'hidden'}`}>
           <Link to="/" className='flex items-center'>
-            <IoHomeOutline className='text-xl mr-1'/>
+            <IoHomeOutline className='text-xl mr-1' />
             <span className='text-xl hover:text-red-500 font-semibold'>Home</span>
           </Link>
           <Link to="/" className='flex items-center'>
@@ -90,7 +111,17 @@ function Navbar() {
             </a>
           </div>
           {/* Login/Logout button */}
-          {ButtonBasedOnLoginStatus}
+          {/* {ButtonBasedOnLoginStatus} */}
+          <div className="dropdown dropdown-end">
+            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+              <div className="text-xl ">
+                <FaUserLarge/>
+              </div>
+            </div>
+            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-black">
+            <DropDownMenu/>
+            </ul>
+          </div>
         </div>
       </nav>
       <div className='lg:hidden'>
@@ -100,19 +131,19 @@ function Navbar() {
         <div className={mobileNavbarClasses}>
           {/* {mobileNavContent} */}
           <div className={`lg:flex items-center gap-6 ${isMenuOpen ? 'flex flex-col lg:flex-row' : 'hidden'}`}>
-          <Link to="/" className='flex items-center'>
-             <IoHomeOutline className='text-xl mr-1' />
-            <span className='font-semibold text-xl'>Home</span>
-          </Link>
-          <Link to="/" className='flex items-center'>
-            <IoLocationOutline className='text-xl mr-1' />
-            <span className='font-semibold text-xl'>Track</span>
-          </Link>
-          <Link to="/" className='flex items-center'>
-            <IoCartOutline className='text-xl mr-1' />
-            <span className='text-xl font-semibold'>Cart</span>
-          </Link>
-        </div>
+            <Link to="/" className='flex items-center'>
+              <IoHomeOutline className='text-xl mr-1' />
+              <span className='font-semibold text-xl'>Home</span>
+            </Link>
+            <Link to="/" className='flex items-center'>
+              <IoLocationOutline className='text-xl mr-1' />
+              <span className='font-semibold text-xl'>Track</span>
+            </Link>
+            <Link to="/" className='flex items-center'>
+              <IoCartOutline className='text-xl mr-1' />
+              <span className='text-xl font-semibold'>Cart</span>
+            </Link>
+          </div>
           <div className='flex items-center gap-3 mt-4'>
             <a href="https://www.apple.com/app-store/" className='p-1'>
               <img src="/logo/appstore.png" className='h-10' alt="App Store" />
@@ -123,7 +154,7 @@ function Navbar() {
           </div>
           {ButtonBasedOnLoginStatus}
           <button onClick={toggleMenu} className="text-2xl text-white rounded-lg">
-            <IoClose/>
+            <IoClose />
           </button>
         </div>
       </div>
