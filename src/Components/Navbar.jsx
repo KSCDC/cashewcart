@@ -42,7 +42,7 @@ function Navbar() {
     </Link>
   );
 
-  function LogOut(){
+   function LogOut(){
     localStorage.clear()
     window.location.reload()
   }
@@ -51,15 +51,9 @@ function Navbar() {
     return (
       isLoggedIn ? (
         <>
-          
-            <li>
-              <a className="justify-between">
-                Profile
-                <span className="badge">New</span>
-              </a>
-            </li>
-            <li><a>Settings</a></li>
-            <li><button onClick={LogOut}>Logout</button></li>
+          <li><Link to="/profile" className="justify-between">Profile</Link></li>
+          <li><a>Settings</a></li>
+          <li><button onClick={LogOut}>Logout</button></li>
        
         </>
       ) : <>
@@ -76,7 +70,8 @@ function Navbar() {
 
   return (
     <>
-      <nav className='hidden lg:flex items-center justify-between bg-gray-800 text-white py-4 px-6 lg:px-12'>
+    {/* desktop view of the navbar */}
+      <nav className='hidden lg:flex items-center justify-between bg-gray-800/55 bg:blur backdrop-blur-md text-white py-4 px-6 lg:px-12 sticky z-50 top-0'>
         {/* Desktop navigation (your existing code) */}
         <Link to={"/"} className="text-2xl font-bold flex items-center uppercase">
           <span className="mr-1">cashew</span>
@@ -137,6 +132,7 @@ function Navbar() {
           </div>
         </div>
       </nav>
+      {/* mobile view of the navbar */}
       <div className='lg:hidden'>
         <button onClick={toggleMenu} className='text-xl mr-4 focus:outline-none'>
           {isMenuOpen ? <FaTimes /> : <FaBars />}

@@ -13,7 +13,7 @@ function PurchasePage({ product_variant_id, name, description, product_images, p
   if (!product_images || !Array.isArray(product_images) || product_images.length === 0) {
     return <Loading />;
   }
-console.log(product_variants[0].product_variant_id)
+
   // global hooks for this component
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
