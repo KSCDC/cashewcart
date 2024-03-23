@@ -61,7 +61,7 @@ console.log(product_variants[0].product_variant_id)
       setErrorMessage('Failed to add product to cart'); // Set error message
     });
   }
-
+ 
   return (
     <main className='grid lg:flex w-full'>
       {/* first half */}
@@ -102,6 +102,7 @@ console.log(product_variants[0].product_variant_id)
             <button 
             onClick={() => {
               setSelectedButton(index)
+              setProductId(data.product_variant_id)
               setProductPrice(data.selling_price)
               setProductWeight(data.weight_in_grams)
             }} className={`p-2 bg-gray-200 justify-center items-center flex flex-col rounded-lg border-red-400 border ${selectedButton === index ? "bg-red-500" : null}`} key={data.id}>
