@@ -129,7 +129,7 @@ function Cart() {
                     
                     <div className='flex justify-between items-center'>
                         <button className="btn bg-red-500 border-none text-white">Buy Now</button>
-                        <button className="text-white p-2bg-red-500 rounded-full hover:text-red-700 hover:bg-white" onClick={() => handleDeleteProduct(data.product.product_variant_id)}>
+                        <button className="text-white bg-red-500 p-2 text-xl p-2bg-red-500 rounded-full hover:text-red-700 hover:bg-white" onClick={() => handleDeleteProduct(data.product.product_variant_id)}>
                             <AiOutlineDelete />
                         </button>
                     </div>
