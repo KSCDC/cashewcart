@@ -4,6 +4,7 @@ import { BACKEND_URL } from '../../constants'
 import Loading from '../../Components/Loading'
 import PurchasePage from './PurchasePage'
 import Banner from "../../Components/Banner"
+import BestSellers from "../Home/BestSellers"
 
 function Purchase() {
   const [response,setResponse] = useState([])
@@ -29,6 +30,7 @@ function Purchase() {
   return (
     <main className="min-h-screen">
         <PurchasePage {...response}/>
+        <BestSellers/>
         <Banner image={`/banner/hero-${Math.floor(Math.random() * 5) + 1}.png`} />
     </main>
   )

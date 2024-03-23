@@ -54,7 +54,7 @@ function Navbar() {
       isLoggedIn ? (
         <>
           <li><Link to="/profile" className="justify-between">Profile</Link></li>
-          <li><a>Settings</a></li>
+          <li><a>Track Order</a></li>
           <li><button onClick={LogOut}>Logout</button></li>
        
         </>
@@ -121,10 +121,10 @@ useEffect(() => {
             <IoHomeOutline className='text-xl mr-1' />
             <span className='text-xl hover:text-red-500 font-semibold'>Home</span>
           </Link>
-          <Link to="/" className='flex items-center'>
+          {/* <Link to="/" className='flex items-center'>
             <IoLocationOutline className='text-xl mr-1' />
             <span className='text-xl hover:text-red-500 font-semibold'>Track</span>
-          </Link>
+          </Link> */}
           <Link to="/cart" className='flex items-center space-x-3'>
           {isLoggedIn ? (
             <div className="indicator ">
