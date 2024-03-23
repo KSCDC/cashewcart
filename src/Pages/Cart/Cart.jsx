@@ -10,6 +10,7 @@ function Cart() {
     console.log(localStorage.access_token)
     const isLoggedIn = useAuthStatus();
     const [cartProducts, setCartProducts] = useState([]);
+    const [subTotal,setSubTotal] = useState(0)
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null); // New state for message
     const isTokenExpired = useTokenExpirationCheck();
@@ -39,6 +40,7 @@ function Cart() {
 
             const data = await response.json();
             setCartProducts(data.results);
+            setSubTotal(data.subtotal_price)
             // Initialize quantity map with purchase_count for each product
             const initialQuantityMap = {};
             data.results.forEach(product => {
@@ -124,10 +126,17 @@ function Cart() {
             }
             window.location.reload()
         };
-
+        console.log(cartProducts)
     return (
         <div className='min-h-screen px-4 py-8'>
+            <div className="flex items-center justify-between sticky left-0">
+            <div>
             <h1 className="text-3xl font-bold mb-8">Your Cart</h1>
+            </div>
+           <div>
+           <button className='btn bg-red-500 text-white hover:bg-red-600'>Purchase Now Total ₹{subTotal}</button>
+           </div>
+            </div>
           
             {message && (
                 <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -156,7 +165,6 @@ function Cart() {
                     </div>
                     
                     <div className='flex justify-between items-center'>
-                        <button className="btn bg-red-500 border-none text-white">Buy Now</button>
                         <button className="text-white bg-red-500 p-2 rounded-full hover:text-red-500 hover:bg-white" onClick={() => handleDeleteProduct(data.product.product_variant_id)}>
                                     <AiOutlineDelete />
                                 </button>

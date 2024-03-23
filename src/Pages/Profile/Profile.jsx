@@ -117,29 +117,26 @@ function Profile() {
                     <Template title={"Cart"} content={`${cartLength} Products`} />
                 </div>
 
-            {/* user address Details */}
+                {/* user address Details */}
 
-            <div className="mt-3">
-                <h3 className="font-bold">Address Details</h3>
-                <div className="grid gap-x-20 grid-cols-1 lg:grid-cols-2 md:grid-cols-2">
-                    {profile.addresses?.lenght > 0 ? (
-                        profile.addresses.map((data,index) => (
-                            <Template key={index} title={"Street"} content={data.street_address}/>
-                        ))
-                    ) : (
-                        <p>No Address</p>
-                    )}
+                <div className="mt-3">
+                    <h3 className="font-bold">Address Details</h3>
+                    <div className="grid gap-x-20 grid-cols-1 lg:grid-cols-2 md:grid-cols-2">
+                        {profile.addresses?.lenght > 0 ? (
+                            profile.addresses.map((data, index) => (
+                                <Template key={index} title={"Street"} content={data.street_address} />
+                            ))
+                        ) : (
+                            <p>No Address</p>
+                        )}
+                    </div>
                 </div>
-            </div>
 
                 <button onClick={() => {
                     localStorage.clear()
                     window.location.reload()
                 }} className="bg-red-500 hover:bg-red-600 btn text-white w-full mt-3 mx-auto">Log Out</button>
             </div>
-
-
-            
 
             {modalShow && (
                 <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">

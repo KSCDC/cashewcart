@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IoLocationOutline, IoCartOutline, IoClose, IoHomeOutline } from "react-icons/io5";
 import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
@@ -6,7 +6,9 @@ import { useAuth } from '../Hooks/AuthContext';
 import useAuthStatus from '../Hooks/useAuthStatus';
 
 import { FaUserLarge } from "react-icons/fa6";
+import { BACKEND_URL } from '../constants';
 function Navbar() {
+  const [cartLength, setCartLength] = useState(0);
 
 
 
@@ -68,6 +70,34 @@ function Navbar() {
     ${isMenuOpen ? 'justify-center' : 'hidden'}
   `;
 
+
+  // Fetch cart length
+  async function fetchCartLength() {
+    const access_token = localStorage.getItem("access_token")
+    try {
+        const response = await fetch(`${BACKEND_URL}/api/product/cart/list/`, {
+            method: "GET",
+            headers: { "Authorization": `Bearer ${access_token}` }
+        });
+        if (!response.ok) {
+            throw new Error("Failed to fetch cart products");
+        }
+        const data = await response.json();
+        setCartLength(data.count);
+    } catch (error) {
+        setError("Failed to fetch cart products. Please try again later.");
+        console.error(error);
+        setTimeout(() => {
+            navigate("/login")
+        }, 2000)
+    }
+}
+useEffect(() => {
+  if(!isLoggedIn){
+    fetchCartLength()
+  }
+},[])
+
   return (
     <>
     {/* desktop view of the navbar */}
@@ -99,7 +129,7 @@ function Navbar() {
           {isLoggedIn ? (
             <div className="indicator ">
             <FaShoppingCart className='text-xl'/>
-              <span className="badge badge-sm indicator-item">8</span>
+              <span className="badge badge-sm indicator-item">{cartLength}</span>
             </div>
           ) : (
             <FaShoppingCart className='text-xl'/>
