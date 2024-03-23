@@ -6,9 +6,10 @@ import useAuthStatus from '../../Hooks/useAuthStatus';
 import useTokenExpirationCheck from '../../Hooks/useTokenExpirationCheck';
 import RefreshToken from '../../Hooks/RefreshToken';
 import { IoStarSharp } from "react-icons/io5";
+import Review from './Review';
 
 
-function PurchasePage({ product_variant_id, name, description, product_images, product_variants,average_rating }) {
+function PurchasePage({id, name, description, product_images, product_variants,average_rating }) {
   // Check if product_images is not defined or not an array
   if (!product_images || !Array.isArray(product_images) || product_images.length === 0) {
     return <Loading />;
@@ -61,9 +62,10 @@ function PurchasePage({ product_variant_id, name, description, product_images, p
       setErrorMessage('Failed to add product to cart'); // Set error message
     });
   }
- 
+  console.log("Product varient",id)
   return (
-    <main className='grid lg:flex w-full'>
+   <div>
+     <main className='grid lg:flex w-full'>
       {/* first half */}
       <div className="w-full flex flex-col items-center p-3">
         {/* product images */}
@@ -130,6 +132,9 @@ function PurchasePage({ product_variant_id, name, description, product_images, p
         {errorMessage && <div className='text-red-500 mt-2 font-bold text-center'>{errorMessage}</div>}
       </div>
     </main>
+    {/* review of the product */}
+    {/* <Review product_variant_id={product_variant_id}/> */}
+   </div>
   );
 }
 
