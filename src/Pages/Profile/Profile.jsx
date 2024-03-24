@@ -15,7 +15,7 @@ function Profile() {
     const [modalShow, setModalShow] = useState(false);
     const [address, setAddress] = useState("");
     const [error, setError] = useState(null);
-
+    console.log(localStorage.access_token)
     // Fetch user profile data
     async function fetchProfile() {
         try {
@@ -89,92 +89,86 @@ function Profile() {
         }
     };
 
-    console.log(localStorage.access_token)
 
+    const addressDetailsHeading = ["Street", "Region", "District"]
     return (
-        <section className="min-h-screen flex flex-col items-center">
-            {error && (
-                <div className="bg-red-200 text-red-800 p-2 rounded-md mb-4">
-                    {error}
-                </div>
-            )}
-
-
-            <div className="flex gap-2">
-                <h1 className="text-5xl h-20 w-20 flex justify-center mb-4 p-3 bg-gray-300 rounded-full shadow-lg">
-                    <FaUser className="text-gray-600" />
-                </h1>
-                <div>
-                    <h2 className="text-3xl font-bold italic">{profile.name}</h2>
-                    <p className="text-lg text-gray-600 italic mb-2">{profile.email}</p>
-                </div>
-            </div>
-            <div className="mt-4">
-                <div className="grid gap-x-20 grid-cols-1 lg:grid-cols-2 md:grid-cols-2">
-                    <Template title={"Name"} content={profile.name} />
-                    <Template title={"Email"} content={profile.email} />
-                    <Template title={"Phone"} content={profile.phone_number} />
-                    <Template title={"Cart"} content={`${cartLength} Products`} />
-                </div>
-
-                {/* user address Details */}
-
-                <div className="mt-3">
-                    <h3 className="font-bold">Address Details</h3>
-                    <div className="grid gap-x-20 grid-cols-1 lg:grid-cols-2 md:grid-cols-2">
-                        {profile.addresses?.lenght > 0 ? (
-                            profile.addresses.map((data, index) => (
-                                <Template key={index} title={"Street"} content={data.street_address} />
-                            ))
-                        ) : (
-                            <p>No Address</p>
-                        )}
+        <div className="min-h-screen flex flex-col items-center justify-center ">
+            <div className="max-w-md w-full bg-white shadow-md rounded-lg overflow-hidden">
+                <div className="px-6 py-4">
+                    <div className="flex items-center justify-center">
+                        <FaUser className="text-5xl text-gray-600" />
+                    </div>
+                    <div className="text-center mt-4">
+                        <h2 className="text-xl font-semibold text-gray-800">{profile.name}</h2>
+                        <p className="text-sm text-gray-600">{profile.email}</p>
                     </div>
                 </div>
+                <div className="px-6 py-4">
+                    <div className="grid grid-cols-2 gap-4 mb-4">
+                        <ProfileItem title="Name" content={profile.name} />
+                        <ProfileItem title="Email" content={profile.email} />
+                        <ProfileItem title="Phone" content={profile.phone_number} />
+                        <ProfileItem title="Cart" content={`${cartLength} Products`} />
+                    </div>
+                    <div className="border-t border-gray-200 pt-4">
+                        <h3 className="text-lg font-semibold mb-2">Address Details</h3>
+                        <div className="grid grid-cols-1 gap-2">
+                            {profile.addresses?.map((address, index) => (
+                                <div key={index}>
+                                    <p className="font-bold underline underline-offset-2">Address {index+1}</p>
+                 
+                                    <div className="flex items-center gap-8">
+                                    <div className="font-semibold text-gray-700">Street:</div>
+                                    <div className="text-gray-800">{address.street_address}</div>
 
-                <button onClick={() => {
-                    localStorage.clear()
-                    window.location.reload()
-                }} className="bg-red-500 hover:bg-red-600 btn text-white w-full mt-3 mx-auto">Log Out</button>
-            </div>
+                                    </div>
+                                    <div className="flex items-center gap-8">
+                                    <div className="font-semibold text-gray-700">Region:</div>
+                                    <div className="text-gray-800">{address.region}</div>
 
-            {modalShow && (
-                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
-                    <div className="bg-white rounded-lg shadow-lg w-96">
-                        <div className="p-8">
-                            <h2 className="text-2xl font-bold mb-4">Edit Address</h2>
-                            <input
-                                type="text"
-                                value={address}
-                                onChange={(e) => setAddress(e.target.value)}
-                                className="w-full border border-gray-300 rounded-md p-2 mb-4 focus:outline-none focus:ring focus:border-blue-300"
-                                placeholder="Enter your address"
-                            />
-                            <div className="flex justify-end">
-                                <button className="btn btn-outline mr-2" onClick={() => setModalShow(false)}>Cancel</button>
-                                <button className="btn btn-primary" onClick={() => handleAddressUpdate(address)}>Save</button>
-                            </div>
+                                    </div>
+                                    <div className="flex items-center gap-8">
+                                    <div className="font-semibold text-gray-700">District:</div>
+                                    <div className="text-gray-800">{address.district}</div>
+                                    </div>
+
+                                    <div className="flex items-center gap-8">
+                                    <div className="font-semibold text-gray-700">State:</div>
+                                    <div className="text-gray-800">{address.state}</div>
+                                    </div>
+                                    <div className="flex items-center gap-8">
+                                        <div className="font-semibold text-gray-700">Pin Code: </div>
+                                        <div className="text-gray-800">{address.postal_code}</div>
+                                    </div>
+                                  
+                                    {/* Add more address details here if needed */}
+                                </div>
+                            ))}
+                            {profile.addresses?.length === 0 && (
+                                <p className="text-gray-500">No Address</p>
+                            )}
                         </div>
                     </div>
+
                 </div>
-            )}
-
-
-
-        </section>
+                <div className="px-6 py-4 bg-gray-100 border-t border-gray-200 flex justify-end">
+                    <button onClick={() => {
+                        localStorage.clear();
+                        window.location.reload();
+                    }} className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">Log Out</button>
+                </div>
+            </div>
+        </div>
     );
 }
 
-
-function Template({ title, content }) {
+function ProfileItem({ title, content }) {
     return (
-        <div>
-            <span className="h-8 w-32 p-2 flex items-center font-bold rounded-tr-full">{title}</span>
-            <div className="h-12 w-72 p-2 flex items-center justify-center bg-gray-300 rounded-r-lg">
-                <p className="font-bold text-xl">{content}</p>
-            </div>
-        </div>
-    )
+        <>
+            <div className="font-semibold text-gray-700">{title}</div>
+            <div className="text-gray-800">{content}</div>
+        </>
+    );
 }
 
 export default Profile;

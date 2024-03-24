@@ -61,6 +61,7 @@ function PurchasePage({product_id, name, description, product_images, product_va
       console.log(err.message); // Log error message
       setErrorMessage('Failed to add product to cart'); // Set error message
     });
+    window.location.reload()
   }
 
   return (

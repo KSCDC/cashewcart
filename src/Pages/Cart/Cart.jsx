@@ -16,6 +16,7 @@ function Cart() {
     const navigate = useNavigate();
     const [quantityMap, setQuantityMap] = useState({}); // State for managing product quantities
 
+    useEffect(() => {window.scrollTo(0,0)},[])
     useEffect(() => {
         fetchData();
     }, [isTokenExpired]);
