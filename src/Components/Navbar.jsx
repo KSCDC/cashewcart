@@ -120,15 +120,15 @@ useEffect(() => {
         </div>
         {/* Navigation links */}
         <div className={`lg:flex items-center gap-x-6 ${isMenuOpen ? 'flex flex-col lg:flex-row' : 'hidden'}`}>
-          <Link to="/" className='flex items-center'>
+          <Link to="/" className='flex items-center hover:text-red-500 hover:underline'>
             <IoHomeOutline className='text-xl mr-1' />
-            <span className='text-xl hover:text-red-500 font-semibold'>Home</span>
+            <span className='text-xl  font-semibold'>Home</span>
           </Link>
           {/* <Link to="/" className='flex items-center'>
             <IoLocationOutline className='text-xl mr-1' />
             <span className='text-xl hover:text-red-500 font-semibold'>Track</span>
           </Link> */}
-          <Link to="/cart" className='flex items-center space-x-3'>
+          <Link to="/cart" className='flex items-center space-x-3 hover:text-red-500 hover:underline'>
           {isLoggedIn ? (
             <div className="indicator ">
             <FaShoppingCart className='text-xl'/>
@@ -137,7 +137,7 @@ useEffect(() => {
           ) : (
             <FaShoppingCart className='text-xl'/>
           )}
-        <span className='text-xl hover:text-red-500 font-semibold'>Cart</span>
+        <span className='text-xl  font-semibold'>Cart</span>
           </Link>
         </div>
         {/* Buttons and download links */}

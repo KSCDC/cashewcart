@@ -3,6 +3,7 @@ import FeaturedProducts from './FeaturedProducts'
 import Banner from '../../Components/Banner'
 import BestSellers from './BestSellers'
 import TrendingProducts from './TrendingProducts'
+import SponsorProducts from './SponsorProducts'
 
 function Home() {
   return (
@@ -12,6 +13,8 @@ function Home() {
     <BestSellers/>
     <Banner image={"/banner/hero-2.png"}/>
     <TrendingProducts/>
+    <Banner image={"/banner/hero-3.png"}/>
+    <SponsorProducts/>
    </main>
   )
 }
