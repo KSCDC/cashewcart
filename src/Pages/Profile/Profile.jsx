@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import useAuthStatus from "../../Hooks/useAuthStatus";
 import { BACKEND_URL } from "../../constants/index";
 import RefreshToken from "../../Hooks/RefreshToken";
-import { FaUser } from "react-icons/fa";
+import { FaUser, FaTrash } from "react-icons/fa";
 
 function Profile() {
     const navigate = useNavigate();
@@ -15,6 +15,7 @@ function Profile() {
     const [modalShow, setModalShow] = useState(false);
     const [address, setAddress] = useState("");
     const [error, setError] = useState(null);
+    const [showErrorModal, setShowErrorModal] = useState(false)
     console.log(localStorage.access_token)
     // Fetch user profile data
     async function fetchProfile() {
@@ -89,6 +90,26 @@ function Profile() {
         }
     };
 
+    // function to delete user address
+    function deleteAddress(id) {
+        const access_token = localStorage.getItem("access_token")
+        try {
+            fetch(`${BACKEND_URL}/api/order/addresses/${id}/`, {
+                method: "DELETE",
+                headers: { "Authorization": `Bearer ${access_token}` }
+            }).then((res) => window.location.reload())
+        } catch (error) {
+            setShowErrorModal(true)
+            setError("Some Thing Went Wrong Try Again After Login")
+            setTimeout(() => {
+                navigate("/login")
+            },3000)
+            setShowErrorModal(false)
+            
+        }
+
+    }
+
 
     const addressDetailsHeading = ["Street", "Region", "District"]
     return (
@@ -111,36 +132,42 @@ function Profile() {
                         <ProfileItem title="Cart" content={`${cartLength} Products`} />
                     </div>
                     <div className="border-t border-gray-200 pt-4">
-                        <h3 className="text-lg font-semibold mb-2">Address Details</h3>
-                        <div className="grid grid-cols-1 gap-2">
+                        <div className="flex items-center justify-between">
+                            <h3 className="text-lg font-semibold mb-2">Address Details</h3>
+                            <button onClick={() => setModalShow(true)} className="btn bg-red-500 text-white hover:bg-red-600 ">Add Address</button>
+                        </div>
+                        <div className="grid grid-cols-1 gap-2 mt-6">
                             {profile.addresses?.map((address, index) => (
                                 <div key={index}>
-                                    <p className="font-bold underline underline-offset-2">Address {index+1}</p>
-                 
-                                    <div className="flex items-center gap-8">
-                                    <div className="font-semibold text-gray-700">Street:</div>
-                                    <div className="text-gray-800">{address.street_address}</div>
-
-                                    </div>
-                                    <div className="flex items-center gap-8">
-                                    <div className="font-semibold text-gray-700">Region:</div>
-                                    <div className="text-gray-800">{address.region}</div>
-
-                                    </div>
-                                    <div className="flex items-center gap-8">
-                                    <div className="font-semibold text-gray-700">District:</div>
-                                    <div className="text-gray-800">{address.district}</div>
+                                    <div className="flex items-center justify-between">
+                                        <p className="font-bold underline underline-offset-2">Address {index + 1}</p>
+                                        <button onClick={() => deleteAddress(address.id)} className="text-xl text-red-500 hover:text-red-700"><FaTrash /></button>
                                     </div>
 
                                     <div className="flex items-center gap-8">
-                                    <div className="font-semibold text-gray-700">State:</div>
-                                    <div className="text-gray-800">{address.state}</div>
+                                        <div className="font-semibold text-gray-700">Street:</div>
+                                        <div className="text-gray-800">{address.street_address}</div>
+
+                                    </div>
+                                    <div className="flex items-center gap-8">
+                                        <div className="font-semibold text-gray-700">Region:</div>
+                                        <div className="text-gray-800">{address.region}</div>
+
+                                    </div>
+                                    <div className="flex items-center gap-8">
+                                        <div className="font-semibold text-gray-700">District:</div>
+                                        <div className="text-gray-800">{address.district}</div>
+                                    </div>
+
+                                    <div className="flex items-center gap-8">
+                                        <div className="font-semibold text-gray-700">State:</div>
+                                        <div className="text-gray-800">{address.state}</div>
                                     </div>
                                     <div className="flex items-center gap-8">
                                         <div className="font-semibold text-gray-700">Pin Code: </div>
                                         <div className="text-gray-800">{address.postal_code}</div>
                                     </div>
-                                  
+
                                     {/* Add more address details here if needed */}
                                 </div>
                             ))}
@@ -151,6 +178,25 @@ function Profile() {
                     </div>
 
                 </div>
+                {/* modal for error */}
+                {showErrorModal && (
+                    <div className="fixed inset-0 bg-black bg-opacity flex items-center justify-center p-2">
+                        <div className="bg-white p-12 w-72">
+                            <p className="text-red-500 text-center font-bold">{err}</p>
+                        </div>
+                    </div>
+                )}
+
+                {/* modal for adding address */}
+                {modalShow && (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2">
+
+                        <div className="p-12 bg-white h-96 w-full">
+                            <button className="btn" onClick={() => setModalShow(false)}>Close</button>
+                        </div>
+                    </div>
+                )}
+                {/* end of modal for getting address */}
                 <div className="px-6 py-4 bg-gray-100 border-t border-gray-200 flex justify-end">
                     <button onClick={() => {
                         localStorage.clear();
