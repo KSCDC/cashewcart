@@ -1,0 +1,14 @@
+{
+    "builds": [
+      {
+        "src": "src",
+        "use": "@vercel/react"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "/index.html"
+      }
+    ]
+  }
