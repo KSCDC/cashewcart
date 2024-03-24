@@ -86,13 +86,15 @@ function Navbar() {
         const data = await response.json();
         setCartLength(data.count);
     } catch (error) {
-        setError("Failed to fetch cart products. Please try again later.");
-        console.error(error);
-        setTimeout(() => {
-            navigate("/login")
-        }, 2000)
+      
+        // setError("Failed to fetch cart products. Please try again later.");
+        // console.error(error);
+        // setTimeout(() => {
+        //     navigate("/login")
+        // }, 2000)
     }
 }
+
 useEffect(() => {
   if(!isLoggedIn){
     fetchCartLength()

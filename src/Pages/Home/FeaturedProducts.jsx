@@ -58,8 +58,8 @@ function FeaturedProducts() {
                             <ProductCard key={product.id} {...product} />
                         ))
                     ) : (
-                        products.results.slice(0, 8).map((product) => (
-                            <ProductCard key={product.id} {...product} />
+                        products.results.slice(0, 8).map((product,index) => (
+                            <ProductCard key={index} {...product} />
                         ))
                     )}
 

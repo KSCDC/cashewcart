@@ -21,8 +21,8 @@ function ProductCard({ product, selling_price,id }) {
        <div className="flex items-center justify-between">
         {/* product rating */}
        <div className="flex items-center text-yellow-400">
-       {Array.from({length:product.average_rating}).map((_index) => (
-          <IoStarSharp className='text-lg'/>
+       {Array.from({length:product.average_rating}).map((_,index) => (
+          <IoStarSharp key={index} className='text-lg'/>
         ))}
         <span className='text-black'>({product.average_rating})</span>
        </div>
