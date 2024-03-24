@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IoLocationOutline, IoCartOutline, IoClose, IoHomeOutline } from "react-icons/io5";
 import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
 import { useAuth } from '../Hooks/AuthContext';
@@ -9,7 +9,8 @@ import { FaUserLarge } from "react-icons/fa6";
 import { BACKEND_URL } from '../constants';
 function Navbar() {
   const [cartLength, setCartLength] = useState(0);
-
+  const [error,setError] = useState('')
+  const navigate = useNavigate()
 
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);

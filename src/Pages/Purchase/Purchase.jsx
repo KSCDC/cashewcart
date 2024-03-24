@@ -26,6 +26,9 @@ function Purchase() {
     if(isLoading){
       return <Loading/>
     }
+    useEffect(() => {
+      window.scrollTo(0,0)
+    },[])
 
   return (
     <main className="min-h-screen">
