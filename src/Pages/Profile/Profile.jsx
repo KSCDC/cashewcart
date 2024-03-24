@@ -4,7 +4,7 @@ import useAuthStatus from "../../Hooks/useAuthStatus";
 import { BACKEND_URL } from "../../constants/index";
 import RefreshToken from "../../Hooks/RefreshToken";
 import { FaUser, FaTrash } from "react-icons/fa";
-
+import { IoMdClose } from "react-icons/io";
 function Profile() {
     const navigate = useNavigate();
     const isLoggedIn = useAuthStatus();
@@ -16,7 +16,23 @@ function Profile() {
     const [address, setAddress] = useState("");
     const [error, setError] = useState(null);
     const [showErrorModal, setShowErrorModal] = useState(false)
-    console.log(localStorage.access_token)
+    // state to add new address
+    const [newAddress, setNewAddress] = useState({
+        street_address: '',
+        region: '',
+        district: '',
+        state: '',
+        postal_code: '',
+        is_default: false
+    })
+    // function to get all inputs for creating new address
+    const handleNewAddressInput = (event) => {
+        const { name, value } = event.target
+        setNewAddress({
+            ...newAddress,
+            [name]: value,
+        })
+    }
     // Fetch user profile data
     async function fetchProfile() {
         try {
@@ -68,28 +84,7 @@ function Profile() {
         }
     }, []);
 
-    // Function to handle address update
-    const handleAddressUpdate = async (newAddress) => {
-        try {
-            const response = await fetch(`${BACKEND_URL}/api/user/profile/address`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${access_token}`
-                },
-                body: JSON.stringify({ address: newAddress })
-            });
-            if (!response.ok) {
-                throw new Error("Failed to update address");
-            }
-            setAddress(newAddress);
-            setModalShow(false); // Close the modal after successful update
-        } catch (error) {
-            setError("Failed to update address. Please try again later.");
-            console.error(error);
-        }
-    };
-
+   
     // function to delete user address
     function deleteAddress(id) {
         const access_token = localStorage.getItem("access_token")
@@ -103,14 +98,55 @@ function Profile() {
             setError("Some Thing Went Wrong Try Again After Login")
             setTimeout(() => {
                 navigate("/login")
-            },3000)
+            }, 3000)
             setShowErrorModal(false)
-            
+
         }
 
     }
-
-
+// function to create new address
+function handleNewAddress() {
+    try {
+      fetch(`${BACKEND_URL}/api/order/addresses/`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${access_token}`,
+          "Content-Type": "application/json" // Set content type to JSON
+        },
+        body: JSON.stringify(newAddress) // Include newAddress in the request body
+      })
+      .then(response => {
+        if (response.ok) {
+          // Handle success
+          console.log("Address created successfully");
+        } else {
+          // Handle error
+          console.error("Failed to create address");
+          throw new Error("Failed to create address");
+        }
+        window.location.reload()
+      })
+      .catch(error => {
+        setModalShow(false);
+        setError("Try again after login");
+        setShowErrorModal(true);
+        setTimeout(() => {
+          navigate("/login");
+        }, 3000);
+        setShowErrorModal(false);
+      });
+    } catch (error) {
+      setModalShow(false);
+      setError("Try again after login");
+      setShowErrorModal(true);
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
+      setShowErrorModal(false);
+    }
+    console.log(newAddress);
+  }
+  
     const addressDetailsHeading = ["Street", "Region", "District"]
     return (
         <div className="min-h-screen flex flex-col items-center justify-center ">
@@ -167,6 +203,11 @@ function Profile() {
                                         <div className="font-semibold text-gray-700">Pin Code: </div>
                                         <div className="text-gray-800">{address.postal_code}</div>
                                     </div>
+                                    <div className="mt-2">
+                                        {address.is_default ? (
+                                            <p className="font-bold text-green-500">Default Address</p>
+                                        ) : null}
+                                    </div>
 
                                     {/* Add more address details here if needed */}
                                 </div>
@@ -182,17 +223,74 @@ function Profile() {
                 {showErrorModal && (
                     <div className="fixed inset-0 bg-black bg-opacity flex items-center justify-center p-2">
                         <div className="bg-white p-12 w-72">
-                            <p className="text-red-500 text-center font-bold">{err}</p>
+                            <p className="text-red-500 text-center font-bold">{error}</p>
                         </div>
                     </div>
                 )}
 
                 {/* modal for adding address */}
                 {modalShow && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2">
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 z-50">
 
-                        <div className="p-12 bg-white h-96 w-full">
-                            <button className="btn" onClick={() => setModalShow(false)}>Close</button>
+                        <div className="p-3 bg-white  w-full">
+                            <div className="flex items-center justify-between">
+                                <h3 className="font-bold text-xl">Add Your Address</h3>
+                                <button className="hover:rotate-45 rotate-0 transition duration-300 ease-in-out mb-2 bg-red-500 text-white rounded-full text-xl p-2" onClick={() => setModalShow(false)}>
+                                <IoMdClose/>
+                                </button>
+                            </div>
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-3">
+                                <input 
+                                    name="street_address" 
+                                    value={newAddress.street_address} 
+                                    onChange={handleNewAddressInput} 
+                                    type="text" 
+                                    className="input bg-gray-200" 
+                                    placeholder="Street Address" />
+                                <input 
+                                    name="region" 
+                                    value={newAddress.region} 
+                                    onChange={handleNewAddressInput} 
+                                    type="text" 
+                                    className="input bg-gray-200" 
+                                    placeholder="Region" />
+                                <input
+                                    name="district"
+                                    value={newAddress.district}
+                                    onChange={handleNewAddressInput} 
+                                    type="text" className="input bg-gray-200" 
+                                    placeholder="District" />
+                                <input 
+                                    name="state" 
+                                    value={newAddress.state}
+                                    onChange={handleNewAddressInput}
+                                    type="text" 
+                                    className="input bg-gray-200" 
+                                    placeholder="State" />
+                            </div>
+                            <input 
+                                name="postal_code"
+                                value={newAddress.postal_code}
+                                onChange={handleNewAddressInput}
+                                type="number" 
+                                className="bg-gray-200 input w-full mt-4" 
+                                placeholder="Postal Code" />
+                                <div className="flex items-center p-2 gap-x-3">
+                                    <input 
+                                        type="checkbox" 
+                                        name="is_default"
+                                        value={newAddress.is_default} 
+                                        onChange={(event) => setNewAddress(prevState => ({
+                                            ...prevState,
+                                            is_default: event.target.checked
+                                        }))}
+                                        className="checkbox bg-gray-200"
+                                        />
+                                        <p className="font-bold">Use This Address As Default One</p>
+                                </div>
+                            <button 
+                                onClick={handleNewAddress} 
+                                className="mt-4 btn bg-red-500 hover:bg-red-600 text-white w-full">Submit</button>
                         </div>
                     </div>
                 )}
