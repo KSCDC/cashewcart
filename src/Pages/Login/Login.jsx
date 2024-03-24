@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../../constants";
 import useAuthStatus from "../../Hooks/useAuthStatus";
@@ -52,7 +52,9 @@ function Login() {
   };
 
 
-
+useEffect(() =>{
+  window.scrollTo(0,0)
+})
   return (
     <div className="flex justify-center h-screen">
       <div className="bg-white rounded-lg shadow-lg p-8 w-full sm:w-96">

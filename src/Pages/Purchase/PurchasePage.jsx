@@ -9,7 +9,7 @@ import { IoStarSharp } from "react-icons/io5";
 import Review from './Review';
 
 
-function PurchasePage({id, name, description, product_images, product_variants,average_rating }) {
+function PurchasePage({product_id, name, description, product_images, product_variants,average_rating }) {
   // Check if product_images is not defined or not an array
   if (!product_images || !Array.isArray(product_images) || product_images.length === 0) {
     return <Loading />;
@@ -62,7 +62,7 @@ function PurchasePage({id, name, description, product_images, product_variants,a
       setErrorMessage('Failed to add product to cart'); // Set error message
     });
   }
-  console.log("Product varient",id)
+
   return (
    <div>
      <main className='grid lg:flex w-full'>
@@ -133,7 +133,9 @@ function PurchasePage({id, name, description, product_images, product_variants,a
       </div>
     </main>
     {/* review of the product */}
-    {/* <Review product_variant_id={product_variant_id}/> */}
+   <div className="mt-6 mb-24">
+   <Review product_id={product_id} average_rating={average_rating}/>
+   </div>
    </div>
   );
 }
