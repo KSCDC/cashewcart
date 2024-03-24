@@ -7,7 +7,6 @@ import RefreshToken from '../../Hooks/RefreshToken';
 import { useNavigate } from 'react-router-dom';
 
 function Cart() {
-    console.log(localStorage.access_token)
     const isLoggedIn = useAuthStatus();
     const [cartProducts, setCartProducts] = useState([]);
     const [subTotal,setSubTotal] = useState(0)
@@ -99,43 +98,43 @@ function Cart() {
     };
     
 
-        const handleDeleteProduct = async (id) => {
-            try {
-                const access_token = localStorage.getItem("access_token");
-                if (!access_token || isTokenExpired) {
-                    RefreshToken();
-                }
-                
-                const response = fetch(`${BACKEND_URL}/api/product/cart/${id}/`, {
-                    method: "DELETE",
-                    headers: { 
-                        "Authorization": `Bearer ${access_token}`,
-                        "Content-Type": "application/json"
-                    }
-                });
-    
-                if (!response.ok) {
-                    throw new Error("Failed to delete product from cart");
-                }
-    
-                // Remove the deleted product from the cartProducts state
-                const updatedCartProducts = cartProducts.filter(product => product.id !== id);
-                setCartProducts(updatedCartProducts);
-            } catch (error) {
-                setError(error.message);
+    const handleDeleteProduct = async (id) => {
+        try {
+            const access_token = localStorage.getItem("access_token");
+            if (!access_token || isTokenExpired) {
+                RefreshToken();
             }
-            window.location.reload()
-        };
-        console.log(cartProducts)
+                
+            const response = fetch(`${BACKEND_URL}/api/product/cart/${id}/`, {
+                method: "DELETE",
+                headers: { 
+                    "Authorization": `Bearer ${access_token}`,
+                    "Content-Type": "application/json"
+                }
+            });
+    
+            if (!response.ok) {
+                throw new Error("Failed to delete product from cart");
+            }
+    
+            // Remove the deleted product from the cartProducts state
+            const updatedCartProducts = cartProducts.filter(product => product.id !== id);
+            setCartProducts(updatedCartProducts);
+        } catch (error) {
+            setError(error.message);
+        }
+        window.location.reload()
+    };
+
     return (
         <div className='min-h-screen px-4 py-8'>
             <div className="flex items-center justify-between sticky left-0">
-            <div>
-            <h1 className="text-3xl font-bold mb-8">Your Cart</h1>
-            </div>
-           <div>
-           <button className='btn bg-red-500 text-white hover:bg-red-600'>Purchase Now Total ₹{subTotal}</button>
-           </div>
+                <div>
+                    <h1 className="text-3xl font-bold mb-8">Your Cart</h1>
+                </div>
+                <div>
+                    <button className='btn bg-red-500 text-white hover:bg-red-600'>Purchase Now Total ₹{subTotal}</button>
+                </div>
             </div>
           
             {message && (
@@ -143,38 +142,63 @@ function Cart() {
                     {message}
                 </div>
             )}
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-                {cartProducts.map((data, index) => (
-                    <div key={index} className='border p-4'>
-                    <img src={`${BACKEND_URL}${data.product.product.product_images[0].product_image}`} alt={data.product.product.name} className="h-72 object-contain mb-4" />
-                    <div className='flex justify-between items-center mb-4'>
-                        <div>
-                            <h3 className="text-xl font-bold">{data.product.product.name}</h3>
-                            <h4>{data.product.weight_in_grams} grams</h4>
-                            <h5 className='font-bold text-red-500'>₹{Number(data.product.selling_price) }</h5>
-                        </div>
-                        {/* update the product quantity */}
-                        <div className="flex flex-col gap-2 items-center">
-                        <div className="flex items-center">
-                        <button className="btn bg-gray-200" onClick={() => handleDecreaseQuantity(data.id)}>-</button>
-                            <span className='text-xl font-bold mx-4'>{quantityMap[data.id] || 1}</span>
-                            <button className="btn bg-gray-200" onClick={() => handleIncreaseQuantity(data.id)}>+</button>
-                        </div>
-                        <button className='btn' onClick={() => handleUpdateQuantity(data.id, quantityMap[data.id] || 1)}>Update Quantity</button>
-                        </div>
-                    </div>
-                    
-                    <div className='flex justify-between items-center'>
-                        <button className="text-white bg-red-500 p-2 rounded-full hover:text-red-500 hover:bg-white" onClick={() => handleDeleteProduct(data.product.product_variant_id)}>
-                                    <AiOutlineDelete />
-                                </button>
-                    </div>
-                </div>
-            ))}
-        </div>
+
+            <div className="overflow-x-auto">
+            <table className="table">
+                <thead className="bg-gray-50">
+                    <tr>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Product Name
+                        </th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Weight
+                        </th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Price
+                        </th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Quantity
+                        </th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {cartProducts.map((data, index) => (
+                        <tr key={index} className="bg-white">
+                            <td className="px-6 py-4 whitespace-nowrap">
+                            <img src={`${BACKEND_URL}${data.product.product.product_images[0].product_image}`} alt={"Product image"} className="h-12 object-contain mb-4" />
+                                <div className="text-sm font-medium text-gray-900">{data.product.product.name}</div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="text-sm text-gray-500">{data.product.weight_in_grams} grams</div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="text-sm text-gray-500">₹{Number(data.product.selling_price)}</div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="flex flex-col gap-2 items-center">
+                                   <div className="flex items-center">
+                                   <button className="btn bg-gray-200" onClick={() => handleDecreaseQuantity(data.id)}>-</button>
+                                    <span className='text-xl font-bold mx-4'>{quantityMap[data.id] || 1}</span>
+                                    <button className="btn bg-gray-200" onClick={() => handleIncreaseQuantity(data.id)}>+</button>
+                                   </div>
+                                    <button className='btn bg-red-500 text-white hover:bg-red-600' onClick={() => handleUpdateQuantity(data.id, quantityMap[data.id] || 1)}>Update Quantity</button>
+                            </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-left text-sm font-medium">
+                            <button className="text-white bg-red-500 p-2 rounded-full hover:text-red-500 hover:bg-white text-xl" onClick={() => handleDeleteProduct(data.product.product_variant_id)}>
+                                <AiOutlineDelete />
+                            </button>
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+            </div>
     </div>
 );
 }
 
 export default Cart;
-
