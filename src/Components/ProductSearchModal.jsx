@@ -22,15 +22,9 @@ function ProductSearchModal({ setShowModal }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-10 z-50">
       <div className="bg-white p-2 rounded-lg h-[30rem] lg:w-1/2 w-96 shadow-lg overflow-scroll">
-        <button
-          onClick={() => setShowModal(false)}
-          className="p-2 text-2xl rotate-45 hover:rotate-0 transition duration-300"
-          title="Close"
-        >
-          <IoMdClose />
-        </button>
         {/* Search input */}
-        <div className="sticky top-0 bg-white z-10">
+        <div className="flex items-center sticky top-0 bg-white z-10 gap-2">
+        
           <input
             type="text"
             className="input bg-gray-200 w-full"
@@ -38,6 +32,13 @@ function ProductSearchModal({ setShowModal }) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
+          <button
+          onClick={() => setShowModal(false)}
+          className="p-2 text-2xl rotate-45 hover:rotate-0 transition duration-300 bg-red-500 text-white rounded-full"
+          title="Close"
+        >
+          <IoMdClose />
+        </button>
         </div>
         {/* Product cards or no products message */}
         <div>

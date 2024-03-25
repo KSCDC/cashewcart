@@ -32,6 +32,8 @@ function FeaturedProducts() {
         }
     };
 
+    
+
     return (
         <main className="min-h-screen">
             <h3 className="text-3xl font-bold text-center m-3 uppercase">Our Featured Products</h3>
