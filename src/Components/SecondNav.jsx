@@ -2,7 +2,7 @@ import React from 'react'
 
 function SecondNav() {
   return (
-       <nav className="h border lg:rounded-[12px] bg-white text-black uppercase w-full flex items-end lg:items-center justify-between z-50">
+       <nav className="h border bg-white text-black uppercase w-full flex items-end lg:items-center justify-between z-50">
    
                 <div className='lg:flex grid'>
                     <img src="/logo/CDC.png" className="h-24 mt-2" alt="Logo" />

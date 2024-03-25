@@ -8,14 +8,17 @@ import Login from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
 import Cart from "./Pages/Cart/Cart";
 import Profile from "./Pages/Profile/Profile";
+import { useState } from "react";
+import ProductSearchModal from "./Components/ProductSearchModal";
 
 export default function App(){
   // Simulating an error condition
   const errorOccurred = true;
+  const [showModal,setShowModal] = useState(false)
 
   return(
     <BrowserRouter>
-      <Navbar />
+      <Navbar setShowModal={setShowModal} />
       <SecondNav />
       <div className="p-3">
         <Routes>
@@ -29,6 +32,7 @@ export default function App(){
           {errorOccurred && <Route path="*" element={<Navigate to="/login" />} />}
         </Routes>
       </div>
+      { showModal && <ProductSearchModal setShowModal={setShowModal}/>}
       <Footer />
     </BrowserRouter>
   );
