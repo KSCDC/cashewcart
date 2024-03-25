@@ -5,7 +5,8 @@ import { BACKEND_URL } from '../../constants';
 import useTokenExpirationCheck from '../../Hooks/useTokenExpirationCheck';
 import RefreshToken from '../../Hooks/RefreshToken';
 import { useNavigate } from 'react-router-dom';
-
+import { FaShoppingCart } from 'react-icons/fa';
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 function Cart() {
     const isLoggedIn = useAuthStatus();
     const [cartProducts, setCartProducts] = useState([]);
@@ -15,7 +16,7 @@ function Cart() {
     const isTokenExpired = useTokenExpirationCheck();
     const navigate = useNavigate();
     const [quantityMap, setQuantityMap] = useState({}); // State for managing product quantities
-
+    const [showModal,setShowModal] = useState(false)
     useEffect(() => { window.scrollTo(0, 0) }, [])
     useEffect(() => {
         fetchData();
@@ -213,8 +214,31 @@ function Cart() {
                     </tbody>
                 </table>
             </div>
+           <div className="flex justify-end mt-2">
+           <button onClick={() => setShowModal(true)} className='btn bg-red-500 text-white hover:bg-red-600 w-52'>Buy Now
+          <FaShoppingCart/> 
+           </button>
+           </div>
+           {showModal && <ShoppingCartModal/>}
         </div>
     );
+
+
+
+function ShoppingCartModal(){
+    return(
+        <div className='fixed inset-0 bg-black bg-opacity-15 flex items-center justify-center p-2 z-50'>
+            <div className="h-96  bg-white p-3 w-96 rounded-lg">
+                <button onClick={() => setShowModal(false)}>Close</button>
+                <div className="flex items-center h-full justify-center">
+                <h4 className="text-5xl text-center animate-spin">
+               <AiOutlineLoading3Quarters/>
+               </h4>
+                </div>
+            </div>
+        </div>
+    )
+}    
 }
 
 export default Cart;
