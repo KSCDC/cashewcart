@@ -78,7 +78,7 @@ function PurchasePage({product_id, name, description, product_images, product_va
           ))}
         </div>
         {/* main image */}
-        <div className="flex justify-center items-center mt-2 border  h-96 w-96  border-red-300 rounded-lg bg-gray-200">
+        <div className="flex justify-center items-center mt-2 border  h-96 w-96  border-red-300 rounded-lg ">
           <img src={`${BACKEND_URL}${primaryImage}`} className='h-72 w-72 object-contain relative overflow-hidden custome-scale duration-500' alt="Main Image" />
         </div>
       </div>

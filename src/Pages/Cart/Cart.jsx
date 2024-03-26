@@ -220,6 +220,7 @@ function Cart() {
            </button>
            </div>
            {showModal && <ShoppingCartModal 
+           subTotal={subTotal}
            setShowModal={setShowModal}/>}
         </div>
     );
