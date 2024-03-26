@@ -185,7 +185,7 @@ const ConfirmationComponent = ({ selectedShippingAddress, selectedBillingAddress
             }
             const payementData = await paymentResponse.json()
             // set pyment key
-            // setrazorPayId(payementData.response.id)
+            setrazorPayId(payementData.response.id)
     
             // Handle successful payment response here if needed
     
