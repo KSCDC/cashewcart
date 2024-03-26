@@ -3,11 +3,13 @@ import { BACKEND_URL } from "../../constants";
 import useRazorpay from "react-razorpay";
 import PaymentSuccessModal from "./PaymentSuccessModal";
 import PaymentFailureModal from "./PaymentFailureModal";
+import { useNavigate } from "react-router-dom";
 
 const ConfirmationComponent = ({ selectedShippingAddress, selectedBillingAddress, userAddress, subTotal }) => {
     const [loading, setLoading] = useState(false);
     const [paymentStatus, setPaymentStatus] = useState(null);
     const [Razorpay] = useRazorpay();
+    const navigate = useNavigate()
 
     const handleProceedPayment = async () => {
         setLoading(true);
@@ -63,10 +65,13 @@ const ConfirmationComponent = ({ selectedShippingAddress, selectedBillingAddress
 
                         if (!verifyPaymentResponse.ok) {
                             throw new Error("Failed to verify payment");
+                           alert("Payment failed")
                         }
 
                         // Handle success
                         console.log("Payment successful:", response);
+                        alert("Payment Success")
+                        window.location.reload()
 
                         // Redirect or perform further actions
                     } catch (error) {
