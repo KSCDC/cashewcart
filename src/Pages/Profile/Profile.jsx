@@ -106,9 +106,18 @@ function Profile() {
         }
 
     }
+
 // function to create new address
 function handleNewAddress() {
     try {
+      // Check if there's already a default address set
+      const hasDefaultAddress = profile.addresses.some(address => address.is_default);
+      if (newAddress.is_default && hasDefaultAddress) {
+        setError("You already have a default address set.");
+        setShowErrorModal(true);
+        return; // Exit the function if trying to set a new default address when one is already set
+      }
+
       fetch(`${BACKEND_URL}/api/order/addresses/`, {
         method: "POST",
         headers: {
@@ -126,7 +135,9 @@ function handleNewAddress() {
           console.error("Failed to create address");
           throw new Error("Failed to create address");
         }
+       setTimeout(() => {
         window.location.reload()
+       },2000)
       })
       .catch(error => {
         setModalShow(false);
@@ -148,6 +159,7 @@ function handleNewAddress() {
     }
     console.log(newAddress);
   }
+
   
     const addressDetailsHeading = ["Street", "Region", "District"]
     return (
@@ -222,15 +234,7 @@ function handleNewAddress() {
                     </div>
 
                 </div>
-                {/* modal for error */}
-                {showErrorModal && (
-                    <div className="fixed inset-0 bg-black bg-opacity flex items-center justify-center p-2">
-                        <div className="bg-white p-12 w-72">
-                            <p className="text-red-500 text-center font-bold">{error}</p>
-                        </div>
-                    </div>
-                )}
-
+            
                 {/* modal for adding address */}
                 {modalShow && (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 z-50">
