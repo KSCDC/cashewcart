@@ -13,8 +13,9 @@ export default function ShoppingCartModal({ setShowModal, subTotal }) {
     const [error, setError] = useState('');
     const [showPayment, setShowPayment] = useState(false); // State to manage visibility of payment component
     const [loading, setLoading] = useState(false); // State to manage loading state
+    const [razorPayId,setrazorPayId] = useState("")
     const navigate = useNavigate();
-
+    console.log(access_token)
     useEffect(() => {
         getUserAddress();
         getOrderDetails();
@@ -151,11 +152,10 @@ export default function ShoppingCartModal({ setShowModal, subTotal }) {
 // ConfirmationComponent component
 const ConfirmationComponent = ({ selectedShippingAddress, selectedBillingAddress, userAddress, subTotal }) => {
     const [loading, setLoading] = useState(false);
-
     const handleProceedPayment = async () => {
         setLoading(true);
         try {
-            const access_token = localStorage.getItem("access_token");
+            const access_token = localStorage.access_token;
             const placeOrderResponse = await fetch(`${BACKEND_URL}/api/order/placeorder/?address=${selectedBillingAddress}`, {
                 method: "POST",
                 headers: {
@@ -169,8 +169,11 @@ const ConfirmationComponent = ({ selectedShippingAddress, selectedBillingAddress
     
             const orderData = await placeOrderResponse.json();
             const orderId = orderData.order_id;
-    
-            const paymentResponse = await fetch(`${BACKEND_URL}/api/payment/ordernumber/${orderId}`, {
+            // setting razor pay id
+            
+
+            // payment gateway if
+            const paymentResponse = await fetch(`${BACKEND_URL}/api/payment/ordernumber/${orderId}/`, {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${access_token}`
@@ -180,6 +183,9 @@ const ConfirmationComponent = ({ selectedShippingAddress, selectedBillingAddress
             if (!paymentResponse.ok) {
                 throw new Error("Failed to process payment");
             }
+            const payementData = await paymentResponse.json()
+            // set pyment key
+            // setrazorPayId(payementData.response.id)
     
             // Handle successful payment response here if needed
     

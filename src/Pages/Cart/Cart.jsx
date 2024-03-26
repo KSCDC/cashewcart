@@ -18,6 +18,7 @@ function Cart() {
     const navigate = useNavigate();
     const [quantityMap, setQuantityMap] = useState({}); // State for managing product quantities
     const [showModal,setShowModal] = useState(false)
+ 
     useEffect(() => { window.scrollTo(0, 0) }, [])
     useEffect(() => {
         fetchData();
@@ -123,27 +124,27 @@ function Cart() {
             if (!access_token || isTokenExpired) {
                 RefreshToken();
             }
-
-            const response = fetch(`${BACKEND_URL}/api/product/cart/${id}/`, {
+    
+            const response = await fetch(`${BACKEND_URL}/api/product/cart/${id}/`, {
                 method: "DELETE",
                 headers: {
                     "Authorization": `Bearer ${access_token}`,
                     "Content-Type": "application/json"
                 }
             });
-
+    
             if (!response.ok) {
                 throw new Error("Failed to delete product from cart");
             }
-
+    
             // Remove the deleted product from the cartProducts state
             const updatedCartProducts = cartProducts.filter(product => product.id !== id);
             setCartProducts(updatedCartProducts);
         } catch (error) {
             setError(error.message);
         }
-        window.location.reload()
     };
+    
 
     return (
         <div className='min-h-screen px-4 py-8'>
