@@ -7,6 +7,7 @@ import RefreshToken from '../../Hooks/RefreshToken';
 import { useNavigate } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import ShoppingCartModal from './ShoppingCartModal';
 function Cart() {
     const isLoggedIn = useAuthStatus();
     const [cartProducts, setCartProducts] = useState([]);
@@ -215,30 +216,17 @@ function Cart() {
                 </table>
             </div>
            <div className="flex justify-end mt-2">
-           <button onClick={() => setShowModal(true)} className='btn bg-red-500 text-white hover:bg-red-600 w-52'>Buy Now
-          <FaShoppingCart/> 
+           <button onClick={() => setShowModal(true)} className='btn bg-red-500 text-white hover:bg-red-600 w-52'>Proceed to Payment 
            </button>
            </div>
-           {showModal && <ShoppingCartModal/>}
+           {showModal && <ShoppingCartModal 
+           setShowModal={setShowModal}/>}
         </div>
     );
 
 
 
-function ShoppingCartModal(){
-    return(
-        <div className='fixed inset-0 bg-black bg-opacity-15 flex items-center justify-center p-2 z-50'>
-            <div className="h-96  bg-white p-3 w-96 rounded-lg">
-                <button onClick={() => setShowModal(false)}>Close</button>
-                <div className="flex items-center h-full justify-center">
-                <h4 className="text-5xl text-center animate-spin">
-               <AiOutlineLoading3Quarters/>
-               </h4>
-                </div>
-            </div>
-        </div>
-    )
-}    
+    
 }
 
 export default Cart;
