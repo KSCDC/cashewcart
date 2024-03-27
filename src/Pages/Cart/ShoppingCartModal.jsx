@@ -4,6 +4,7 @@ import { BACKEND_URL } from "../../constants";
 import { useNavigate, Link } from "react-router-dom";
 import AddressCard from "./AddressCard";
 import ConfirmationComponent from "./ConfirmationComponent";
+import UpdateAddress from "../../Components/UpdateAddress";
 
 
 // ShoppingCartModal component
@@ -16,7 +17,7 @@ export default function ShoppingCartModal({ setShowModal, subTotal,cartCount }) 
     const [error, setError] = useState('');
     const [showPayment, setShowPayment] = useState(false); // State to manage visibility of payment component
     const [loading, setLoading] = useState(false); // State to manage loading state
-    
+    const [updateAddress,setUpdateAddress] = useState(false)
     const navigate = useNavigate();
     const access_token = localStorage.getItem("access_token");
    
@@ -92,7 +93,7 @@ export default function ShoppingCartModal({ setShowModal, subTotal,cartCount }) 
                         <div className="mb-6">
                             <div className="flex items-center justify-between">
                                 <h3 className="text-lg font-semibold mb-2">Shipping Address</h3>
-                                <Link to="/profile"><button className="btn mb-2 bg-red-500 text-white">Add New Address</button></Link>
+                               <button className="btn mb-2 bg-red-500 text-white" onClick={() => setUpdateAddress(true)}>Add New Address</button>
                             </div>
                             <div className="space-y-2">
                                 {userAddress.map((address) => (
@@ -103,7 +104,7 @@ export default function ShoppingCartModal({ setShowModal, subTotal,cartCount }) 
                         <div className="mb-2">
                             <div className="flex items-center justify-between">
                                 <h3 className="text-lg font-semibold mb-2">Billing Address</h3>
-                                <Link to="/profile"><button className="btn mb-2 bg-red-500 text-white">Add New Address</button></Link>
+                               <button className="btn mb-2 bg-red-500 text-white" onClick={() => setUpdateAddress(true)}>Add New Address</button>
                             </div>
                             <div className="space-y-2">
                                 {userAddress.map((address) => (
@@ -116,6 +117,7 @@ export default function ShoppingCartModal({ setShowModal, subTotal,cartCount }) 
                                 ))}
                             </div>
                         </div>
+                        {updateAddress && <UpdateAddress setUpdateAddress={setUpdateAddress}/>}
                         <div className="flex justify-end">
                             <button className="btn bg-red-500 text-white hover:bg-red-600" onClick={handleConfirmOrder} disabled={loading}>
                                 {loading ? 'Loading...' : 'Proceed to Payment'}
