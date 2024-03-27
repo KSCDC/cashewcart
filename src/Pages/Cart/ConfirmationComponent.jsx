@@ -78,7 +78,7 @@ const ConfirmationComponent = ({ selectedShippingAddress, selectedBillingAddress
                     <input type="hidden" name="order_id" value={orderId} />
                     <input type="hidden" name="name" value="KSCDC" />
                     <input type="hidden" name="description" value={description} />
-                    <input type="hidden" name="image" value="https://cdn.razorpay.com/logos/BUVwvgaqVByGp2_large.jpg" />
+                    <input type="hidden" name="image" value="https://www.cashewcorporation.com/images/logo.png" />
                     <input type="hidden" name="prefill[contact]" value="9123456780" />
                     <input type="hidden" name="prefill[email]" value={customerMail} />
                     <input type="hidden" name="notes[shipping address]" value={confirmShippingAddress} />
