@@ -9,7 +9,7 @@ function Profile() {
     const navigate = useNavigate();
     const isLoggedIn = useAuthStatus();
     const access_token = localStorage.getItem("access_token");
-
+    console.log(access_token)
     const [profile, setProfile] = useState({});
     const [cartLength, setCartLength] = useState(0);
     const [cartTotalPrice,setCartTotalPrice] = useState(0)
@@ -19,11 +19,13 @@ function Profile() {
     const [showErrorModal, setShowErrorModal] = useState(false)
     // state to add new address
     const [newAddress, setNewAddress] = useState({
+        name: '',
         street_address: '',
         region: '',
         district: '',
         state: '',
         postal_code: '',
+        phone_number: '',
         is_default: false
     })
     // function to get all inputs for creating new address
@@ -68,7 +70,7 @@ function Profile() {
             setCartLength(data.count);
         } catch (error) {
             setError("Failed to fetch cart products. Please try again later.");
-            console.error(error);
+            console.error(error.message);
             setTimeout(() => {
                 navigate("/login")
             }, 2000)
@@ -97,10 +99,10 @@ function Profile() {
             }).then((res) => window.location.reload())
         } catch (error) {
             setShowErrorModal(true)
-            // setError("Some Thing Went Wrong Try Again After Login")
-            // setTimeout(() => {
-            //     navigate("/login")
-            // }, 3000)
+            setError("Some Thing Went Wrong Try Again After Login")
+            setTimeout(() => {
+                navigate("/login")
+            }, 3000)
             setShowErrorModal(false)
 
         }
@@ -133,7 +135,7 @@ function handleNewAddress() {
         } else {
           // Handle error
           console.error("Failed to create address");
-          throw new Error("Failed to create address");
+        //   throw new Error("Failed to create address");
         }
        setTimeout(() => {
         window.location.reload()
@@ -141,6 +143,7 @@ function handleNewAddress() {
       })
       .catch(error => {
         setModalShow(false);
+        console.log(error.message)
         setError("Try again after login");
         setShowErrorModal(true);
         setTimeout(() => {
@@ -194,6 +197,11 @@ function handleNewAddress() {
                                         <p className="font-bold underline underline-offset-2">Address {index + 1}</p>
                                         <button onClick={() => deleteAddress(address.id)} className="text-xl text-red-500 hover:text-red-700"><FaTrash /></button>
                                     </div>
+                                    <div className="flex items-center gap-8">
+                                        <div className="font-semibold text-gray-700">Name:</div>
+                                        <div className="text-gray-800">{address.name}</div>
+
+                                    </div>
 
                                     <div className="flex items-center gap-8">
                                         <div className="font-semibold text-gray-700">Street:</div>
@@ -217,6 +225,10 @@ function handleNewAddress() {
                                     <div className="flex items-center gap-8">
                                         <div className="font-semibold text-gray-700">Pin Code: </div>
                                         <div className="text-gray-800">{address.postal_code}</div>
+                                    </div>
+                                    <div className="flex items-center gap-8">
+                                        <div className="font-semibold text-gray-700">Contact No: </div>
+                                        <div className="text-gray-800">{address.phone_number}</div>
                                     </div>
                                     <div className="mt-2">
                                         {address.is_default ? (
@@ -246,6 +258,15 @@ function handleNewAddress() {
                 </button>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-2 gap-3">
+
+            <input
+                    name="name"
+                    value={newAddress.name}
+                    onChange={handleNewAddressInput}
+                    type="text"
+                    className="input bg-gray-200"
+                    placeholder="Name Please...."
+                />
                 <input
                     name="region"
                     value={newAddress.region}
@@ -310,6 +331,16 @@ function handleNewAddress() {
                     placeholder="Street Address"
                 />
             </div>
+            <div className="w-full mt-2">
+                    <input 
+                    type="tel" 
+                    className="w-full input bg-gray-200" 
+                    name="phone_number"
+                    value={newAddress.phone_number}
+                    onChange={handleNewAddressInput}
+                    placeholder="Mobile Number...."
+                    />
+                </div>
             {error && <p className="text-red-500">{error}</p>}
             <div className="flex items-center p-2 gap-x-3">
                 <input

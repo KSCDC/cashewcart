@@ -45,6 +45,7 @@ function Cart() {
 
             const data = await response.json();
             setCartProducts(data.results);
+            console.log("Cart details", data)
             setSubTotal(data.subtotal_price)
             setCartCount(data.count)
             // Initialize quantity map with purchase_count for each product
