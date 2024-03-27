@@ -8,18 +8,19 @@ import { useNavigate } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import ShoppingCartModal from './ShoppingCartModal';
+
 function Cart() {
     const isLoggedIn = useAuthStatus();
     const [cartProducts, setCartProducts] = useState([]);
-    const [subTotal, setSubTotal] = useState(0)
+    const [subTotal, setSubTotal] = useState(0);
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null); // New state for message
     const isTokenExpired = useTokenExpirationCheck();
     const navigate = useNavigate();
     const [quantityMap, setQuantityMap] = useState({}); // State for managing product quantities
-    const [showModal,setShowModal] = useState(false)
- 
-    useEffect(() => { window.scrollTo(0, 0) }, [])
+    const [showModal, setShowModal] = useState(false);
+
+    useEffect(() => { window.scrollTo(0, 0) }, []);
     useEffect(() => {
         fetchData();
     }, [isTokenExpired]);
@@ -124,7 +125,7 @@ function Cart() {
             if (!access_token || isTokenExpired) {
                 RefreshToken();
             }
-    
+
             const response = await fetch(`${BACKEND_URL}/api/product/cart/${id}/`, {
                 method: "DELETE",
                 headers: {
@@ -132,11 +133,11 @@ function Cart() {
                     "Content-Type": "application/json"
                 }
             });
-    
+
             if (!response.ok) {
                 throw new Error("Failed to delete product from cart");
             }
-    
+
             // Remove the deleted product from the cartProducts state
             const updatedCartProducts = cartProducts.filter(product => product.id !== id);
             setCartProducts(updatedCartProducts);
@@ -144,7 +145,14 @@ function Cart() {
             setError(error.message);
         }
     };
-    
+
+    const convertWeightToKg = (weightInGrams) => {
+        if (weightInGrams >= 1000) {
+            return `${(weightInGrams / 1000).toFixed(2)} Kg`;
+        } else {
+            return `${weightInGrams} grams`;
+        }
+    };
 
     return (
         <div className='min-h-screen px-4 py-8'>
@@ -176,7 +184,7 @@ function Cart() {
                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Price
                             </th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th scope="col" className="px-6 py-3 text                            -left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Quantity
                             </th>
                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -192,7 +200,7 @@ function Cart() {
                                     <div className="text-sm font-medium text-gray-900">{data.product.product.name}</div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="text-sm text-gray-500">{data.product.weight_in_grams} grams</div>
+                                    <div className="text-sm text-gray-500">{convertWeightToKg(data.product.weight_in_grams)}</div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <div className="text-sm text-gray-500">₹{Number(data.product.selling_price)}</div>
@@ -200,7 +208,7 @@ function Cart() {
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <div className="flex flex-col gap-2 items-center">
                                         <div className="flex items-center">
-                                            <button className="btn bg-gray-200" onClick={() => handleDecreaseQuantity(data.id)}>-</button>
+                                            <button   disabled={quantityMap[data.id] <= 1}  className="btn bg-gray-200" onClick={() => handleDecreaseQuantity(data.id)}>-</button>
                                             <span className='text-xl font-bold mx-4'>{quantityMap[data.id] || 1}</span>
                                             <button className="btn bg-gray-200" onClick={() => handleIncreaseQuantity(data.id)}>+</button>
                                         </div>
@@ -225,11 +233,6 @@ function Cart() {
            setShowModal={setShowModal}/>}
         </div>
     );
-
-
-
-    
 }
 
 export default Cart;
-
