@@ -19,7 +19,7 @@ function Cart() {
     const navigate = useNavigate();
     const [quantityMap, setQuantityMap] = useState({}); // State for managing product quantities
     const [showModal, setShowModal] = useState(false);
-
+    console.log(localStorage.access_token)
     useEffect(() => { window.scrollTo(0, 0) }, []);
     useEffect(() => {
         fetchData();
@@ -195,7 +195,7 @@ function Cart() {
                     <tbody>
                         {cartProducts.map((data, index) => (
                             <tr key={index} className="bg-white">
-                                <td className="px-6 py-4 whitespace-nowrap">
+                                <td className="px-6 py-4 whitespace-nowrap flex flex-col items-start">
                                     <img src={`${BACKEND_URL}${data.product.product.product_images[0].product_image}`} alt={"Product image"} className="h-12 object-contain mb-4" />
                                     <div className="text-sm font-medium text-gray-900">{data.product.product.name}</div>
                                 </td>
@@ -224,7 +224,8 @@ function Cart() {
                     </tbody>
                 </table>
             </div>
-           <div className="flex justify-end mt-2">
+           <div className="flex justify-between mt-2">
+            <button className='btn bg-white border outline outline-red-400 outline-offset-2 outline-2 border-red-500 text-red-500 hover:text-white w-52 hover:bg-red-600' onClick={() => history.back()}>Continue Shopping</button>
            <button onClick={() => setShowModal(true)} className='btn bg-red-500 text-white hover:bg-red-600 w-52'>Proceed to Payment 
            </button>
            </div>
