@@ -121,7 +121,8 @@ const BestSellerCard = ({ name, description, image, selling_price, id, rating })
                             ))}
                             <span className='text-black'>({rating})</span>
                         </div>
-                        <Link to="/purchase" state={{ id: id }}>
+                        {/* Modify the Link to pass the product ID through URL */}
+                        <Link to={`/purchase/${id}`}>
                             <button className="flex items-center gap-3 mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 ease-in-out">
                                 Buy Now
                                 <FaCartShopping />

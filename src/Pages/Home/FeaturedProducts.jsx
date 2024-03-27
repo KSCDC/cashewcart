@@ -61,7 +61,9 @@ function FeaturedProducts() {
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-2">
                     {showMore ? (
                         products.results.map((product) => (
-                            <ProductCard key={product.product_variant_id} {...product} />
+                            <ProductCard 
+                            key={product.product_variant_id} 
+                            {...product} />
                         ))
                     ) : (
                         products.results.slice(0, 4).map((product,index) => (

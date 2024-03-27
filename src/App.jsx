@@ -1,3 +1,4 @@
+// App.jsx
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Home from "./Pages/Home/Home";
 import Navbar from "./Components/Navbar";
@@ -26,10 +27,11 @@ export default function App(){
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/purchase" element={<Purchase />} />
+          {/* Modify the route to accept a parameter for the product ID */}
+          <Route path="/purchase/:productId" element={<Purchase />} />
           <Route path="/profile" element={<Profile/>}/>
           {/* Redirect to login if an error occurs */}
-          {errorOccurred && <Route path="*" element={<Navigate to="/login" />} />}
+          {/* {errorOccurred && <Route path="*" element={<Navigate to="/login" />} />} */}
         </Routes>
       </div>
       { showModal && <ProductSearchModal setShowModal={setShowModal}/>}
