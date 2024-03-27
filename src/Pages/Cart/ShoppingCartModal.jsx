@@ -7,7 +7,7 @@ import ConfirmationComponent from "./ConfirmationComponent";
 
 
 // ShoppingCartModal component
-export default function ShoppingCartModal({ setShowModal, subTotal }) {
+export default function ShoppingCartModal({ setShowModal, subTotal,cartCount }) {
 
     const [userAddress, setUserAddress] = useState([]);
     const [selectedShippingAddress, setSelectedShippingAddress] = useState(null);
@@ -128,6 +128,7 @@ export default function ShoppingCartModal({ setShowModal, subTotal }) {
                         selectedBillingAddress={selectedBillingAddress}
                         userAddress={userAddress}
                         subTotal={subTotal}
+                        cartCount={cartCount}
                         
                     />
                 )}

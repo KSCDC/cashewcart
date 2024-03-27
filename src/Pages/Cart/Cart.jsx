@@ -13,6 +13,7 @@ function Cart() {
     const isLoggedIn = useAuthStatus();
     const [cartProducts, setCartProducts] = useState([]);
     const [subTotal, setSubTotal] = useState(0);
+    const [cartCount,setCartCount] = useState(0)
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null); // New state for message
     const isTokenExpired = useTokenExpirationCheck();
@@ -45,6 +46,7 @@ function Cart() {
             const data = await response.json();
             setCartProducts(data.results);
             setSubTotal(data.subtotal_price)
+            setCartCount(data.count)
             // Initialize quantity map with purchase_count for each product
             const initialQuantityMap = {};
             data.results.forEach(product => {
@@ -226,11 +228,12 @@ function Cart() {
             </div>
            <div className="flex justify-between mt-2">
             <button className='btn bg-white border outline outline-red-400 outline-offset-2 outline-2 border-red-500 text-red-500 hover:text-white w-52 hover:bg-red-600' onClick={() => history.back()}>Continue Shopping</button>
-           <button onClick={() => setShowModal(true)} className='btn bg-red-500 text-white hover:bg-red-600 w-52'>Proceed to Payment 
+           <button onClick={() => setShowModal(true)} className='btn bg-red-500 text-white hover:bg-red-600 w-52'>Place Order
            </button>
            </div>
            {showModal && <ShoppingCartModal 
            subTotal={subTotal}
+           cartCount={cartCount}
            setShowModal={setShowModal}/>}
         </div>
     );

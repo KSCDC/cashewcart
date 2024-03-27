@@ -5,7 +5,7 @@ import PaymentSuccessModal from "./PaymentSuccessModal";
 import PaymentFailureModal from "./PaymentFailureModal";
 import { useNavigate } from "react-router-dom";
 
-const ConfirmationComponent = ({ selectedShippingAddress, selectedBillingAddress, userAddress, subTotal }) => {
+const ConfirmationComponent = ({ selectedShippingAddress, selectedBillingAddress, userAddress, subTotal,cartCount }) => {
     const [loading, setLoading] = useState(false);
     const [paymentStatus, setPaymentStatus] = useState(null);
     const [Razorpay] = useRazorpay();
@@ -124,6 +124,7 @@ const ConfirmationComponent = ({ selectedShippingAddress, selectedBillingAddress
             </div>
             <hr className="border border-gray-400" />
             <h2 className="flex items-center mt-3 font-bold text-xl">Total ₹{subTotal}/-</h2>
+            <h2 className="flex items-center mt-3 font-bold text-xl">Products: {cartCount}</h2>
             <div className="flex justify-end">
                 <button className="btn bg-red-500 text-white hover:bg-red-600" onClick={() => handleProceedPayment()} disabled={loading}>
                     {loading ? 'Loading...' : 'Proceed to Payment'}
