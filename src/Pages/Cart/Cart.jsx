@@ -143,6 +143,7 @@ function Cart() {
             // Remove the deleted product from the cartProducts state
             const updatedCartProducts = cartProducts.filter(product => product.id !== id);
             setCartProducts(updatedCartProducts);
+            window.location.reload()
         } catch (error) {
             setError(error.message);
         }

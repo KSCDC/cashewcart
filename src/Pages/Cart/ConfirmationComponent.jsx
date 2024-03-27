@@ -10,22 +10,22 @@ const ConfirmationComponent = ({ selectedShippingAddress, selectedBillingAddress
     const [paymentStatus, setPaymentStatus] = useState(null);
     const [Razorpay] = useRazorpay();
     const navigate = useNavigate()
-
     const handleProceedPayment = async () => {
         setLoading(true);
         try {
             const access_token = localStorage.access_token;
-            const placeOrderResponse = await fetch(`${BACKEND_URL}/api/order/placeorder/?address=${selectedBillingAddress}`, {
+            const placeOrderResponse = await fetch(`${BACKEND_URL}/api/order/placeorder/?shipping_address=${selectedShippingAddress}&billing_address=${selectedShippingAddress} `, {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${access_token}`
                 }
             });
+            console.log(placeOrderResponse)
     
             if (!placeOrderResponse.ok) {
                 throw new Error("Failed to place the order");
             }
-
+            
             const orderData = await placeOrderResponse.json();
             const orderId = orderData.order_id;
 
@@ -116,7 +116,7 @@ const ConfirmationComponent = ({ selectedShippingAddress, selectedBillingAddress
             <h2 className="text-2xl font-semibold mb-4">Order Confirmation</h2>
             <div className="mb-4">
                 <h3 className="text-lg font-semibold mb-2">Shipping Address</h3>
-                <p>{confirmShippingAddress ? `${confirmShippingAddress.street_address}, ${confirmShippingAddress.region}, ${confirmShippingAddress.district}, ${confirmShippingAddress.state} - ${confirmShippingAddress.postal_code}` : 'No shipping address selected'}</p>
+                <p> {confirmShippingAddress ? `${confirmShippingAddress.street_address}, ${confirmShippingAddress.region}, ${confirmShippingAddress.district}, ${confirmShippingAddress.state} - ${confirmShippingAddress.postal_code}` : 'No shipping address selected'}</p>
             </div>
             <div className="mb-4">
                 <h3 className="text-lg font-semibold mb-2">Billing Address</h3>

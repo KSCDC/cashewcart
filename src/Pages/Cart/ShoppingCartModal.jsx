@@ -4,8 +4,6 @@ import { BACKEND_URL } from "../../constants";
 import { useNavigate, Link } from "react-router-dom";
 import AddressCard from "./AddressCard";
 import ConfirmationComponent from "./ConfirmationComponent";
-import UpdateAddress from "../../Components/UpdateAddress";
-
 
 // ShoppingCartModal component
 export default function ShoppingCartModal({ setShowModal, subTotal,cartCount }) {
@@ -48,8 +46,7 @@ export default function ShoppingCartModal({ setShowModal, subTotal,cartCount }) 
 
     const getOrderDetails = () => {
         // Fetch order details
-        // Replace the fetch URL with the actual endpoint to fetch order details
-        fetch(`${BACKEND_URL}/api/order/details/`, {
+        fetch(`${BACKEND_URL}/api/order/orderdetail`, {
             method: "GET",
             headers: { "Authorization": `Bearer ${access_token}` },
         })
@@ -117,7 +114,7 @@ export default function ShoppingCartModal({ setShowModal, subTotal,cartCount }) 
                                 ))}
                             </div>
                         </div>
-                        {updateAddress && <UpdateAddress setUpdateAddress={setUpdateAddress}/>}
+                        {/* {updateAddress && <UpdateAddress setUpdateAddress={setUpdateAddress}/>} */}
                         <div className="flex justify-end">
                             <button className="btn bg-red-500 text-white hover:bg-red-600" onClick={handleConfirmOrder} disabled={loading}>
                                 {loading ? 'Loading...' : 'Proceed to Payment'}
