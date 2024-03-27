@@ -45,7 +45,7 @@ function TrendingProducts() {
     };
 
     return (
-        <main>
+        <main id="trending">
             <div className="flex items-center justify-center gap-3">
                 <button
                     className={`p-3 hover:bg-red-500 hover:text-white rounded-full border ${!hasPrevious ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'border-red-500'}`}

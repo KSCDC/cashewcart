@@ -6,6 +6,10 @@ function Footer() {
     const date = new Date()
     setYear(date.getFullYear())
   }, [])
+
+  const backToTop =() => {
+    window.scrollTo(0,0)
+  }
   return (
     <div className='bg-gray-100'>
       <footer className="footer p-10 bg-base-200 text-base-content">
@@ -15,15 +19,17 @@ function Footer() {
         </aside>
         <nav>
           <h6 className="footer-title">Quick Links</h6>
-          <a className="link link-hover">Home</a>
-          <a className="link link-hover">Contact us</a>
+          <a href='/' className="link link-hover">Home</a>
+          <a href='#bestsellers' className="link link-hover">Best Sellers</a>
+          <a href='#trending' className="link link-hover">Trending Products</a>
+          <a href='#sponsored' className="link link-hover">Sponsored Products</a>
+          <button onClick={backToTop} className='underline'>Back to Top</button>
+
+
         </nav>
         <nav>
-          <h6 className="footer-title">Company</h6>
-          <a className="link link-hover">About us</a>
-          <a className="link link-hover">Contact</a>
-          <a className="link link-hover">Jobs</a>
-          <a className="link link-hover">Press kit</a>
+          <h6 className="footer-title">Contact Us</h6>
+          <a href='https://www.cashewcorporation.com/contact' target='_blank' className="link link-hover">Contact</a>
         </nav>
         <nav>
           <h6 className="footer-title">Information</h6>
