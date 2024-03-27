@@ -71,6 +71,7 @@ const ConfirmationComponent = ({ selectedShippingAddress, selectedBillingAddress
             <hr className="border border-gray-400" />
             <h2 className="flex items-center mt-3 font-bold text-xl">Total ₹{subTotal}/-</h2>
             <h2 className="flex items-center mt-3 font-bold text-xl">Products: {cartCount}</h2>
+            <div className="flex justify-end">
             {paymentStatus ? (
                 <form method="POST" action="https://api.razorpay.com/v1/checkout/embedded">
                     <input type="hidden" name="key_id" value="rzp_test_0Bm1lMEg56tINT" />
@@ -93,6 +94,7 @@ const ConfirmationComponent = ({ selectedShippingAddress, selectedBillingAddress
                         </button>
                     </div>
                 )}
+            </div>
         </div>
     );
 };
