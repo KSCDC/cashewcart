@@ -1,108 +1,54 @@
 import React, { useState } from "react";
 import { BACKEND_URL } from "../../constants";
 import useRazorpay from "react-razorpay";
-import PaymentSuccessModal from "./PaymentSuccessModal";
-import PaymentFailureModal from "./PaymentFailureModal";
 import { useNavigate } from "react-router-dom";
 
-const ConfirmationComponent = ({ selectedShippingAddress, selectedBillingAddress, userAddress, subTotal,cartCount }) => {
+const ConfirmationComponent = ({ selectedShippingAddress, selectedBillingAddress, userAddress, subTotal, cartCount }) => {
     const [loading, setLoading] = useState(false);
     const [paymentStatus, setPaymentStatus] = useState(null);
-    const [Razorpay] = useRazorpay();
-    const navigate = useNavigate()
+    const [orderId, setOrderId] = useState();
+    const [amount, setAmount] = useState();
+    const [description, setDescription] = useState();
+    const [customerMail, setCustomerMail] = useState();
+    const navigate = useNavigate();
+
     const handleProceedPayment = async () => {
         setLoading(true);
         try {
             const access_token = localStorage.access_token;
-            const placeOrderResponse = await fetch(`${BACKEND_URL}/api/order/placeorder/?shipping_address=${selectedShippingAddress}&billing_address=${selectedShippingAddress} `, {
+            const placeOrderResponse = await fetch(`${BACKEND_URL}/api/order/placeorder/?shipping_address=${selectedShippingAddress}&billing_address=${selectedShippingAddress}`, {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${access_token}`
                 }
             });
-            console.log(placeOrderResponse)
-    
             if (!placeOrderResponse.ok) {
                 throw new Error("Failed to place the order");
             }
-            
             const orderData = await placeOrderResponse.json();
             const orderId = orderData.order_id;
 
-            // payment gateway if
             const paymentResponse = await fetch(`${BACKEND_URL}/api/payment/ordernumber/${orderId}/`, {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${access_token}`
                 }
             });
-    
             if (!paymentResponse.ok) {
                 throw new Error("Failed to process payment");
             }
-            const payementData = await paymentResponse.json()
-            console.log(payementData)
-            const options ={
-                "key": "rzp_test_0Bm1lMEg56tINT",
-                "amount": payementData.response.amount,
-                "name": "KSCDC",
-                "order_id": payementData.response.id,
-                "description": payementData.response.notes.items,
-                handler: async function (response) {
-                    try {
-                        const verifyPaymentResponse = await fetch(`${BACKEND_URL}/api/payment/verify-payment/`, {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "Authorization": `Bearer ${access_token}`
-                            },
-                            body: JSON.stringify({
-                                razorpay_signature: response.razorpay_signature,
-                                razorpay_order_id: response.razorpay_order_id,
-                                razorpay_payment_id: response.razorpay_payment_id
-                            })
-                        });
-
-                        if (!verifyPaymentResponse.ok) {
-                            throw new Error("Failed to verify payment");
-                           alert("Payment failed")
-                        }
-
-                        // Handle success
-                        console.log("Payment successful:", response);
-                        alert("Payment Success")
-                        window.location.reload()
-
-                        // Redirect or perform further actions
-                    } catch (error) {
-                        console.error("Error occurred while verifying payment:", error);
-                        // Handle error state or display error message to the user
-                    }
-                },
-                "prefill": {
-                    'contact': '7560914938',
-                    'email': payementData.response.notes.email
-                },
-                theme: {
-                    color: "#3399c"
-                }
-
-            }
-            const rzpay = new Razorpay(options)
-            rzpay.open()
-            // set pyment key
-            console.log(`Razor Pay ID ${payementData.response.id}`)
-            
-            // Handle successful payment response here if needed
-    
+            const paymentData = await paymentResponse.json();
+            setOrderId(paymentData.response.id);
+            setAmount(paymentData.response.amount);
+            setDescription(paymentData.response.notes.items);
+            setCustomerMail(paymentData.response.notes.email);
+            setPaymentStatus(true);
         } catch (error) {
             console.log("Error occurred while placing the order or processing payment:", error);
-            // Handle error state or display error message to the user
         } finally {
             setLoading(false);
         }
     };
-    
 
     const closeModal = () => {
         setPaymentStatus(null);
@@ -125,13 +71,28 @@ const ConfirmationComponent = ({ selectedShippingAddress, selectedBillingAddress
             <hr className="border border-gray-400" />
             <h2 className="flex items-center mt-3 font-bold text-xl">Total ₹{subTotal}/-</h2>
             <h2 className="flex items-center mt-3 font-bold text-xl">Products: {cartCount}</h2>
-            <div className="flex justify-end">
-                <button className="btn bg-red-500 text-white hover:bg-red-600" onClick={() => handleProceedPayment()} disabled={loading}>
-                    {loading ? 'Loading...' : 'Proceed to Payment'}
-                </button>
-            </div>
-            {paymentStatus === "success" && <PaymentSuccessModal closeModal={closeModal} />}
-            {paymentStatus === "error" && <PaymentFailureModal closeModal={closeModal} />}
+            {paymentStatus ? (
+                <form method="POST" action="https://api.razorpay.com/v1/checkout/embedded">
+                    <input type="hidden" name="key_id" value="rzp_test_0Bm1lMEg56tINT" />
+                    <input type="hidden" name="amount" value={amount} />
+                    <input type="hidden" name="order_id" value={orderId} />
+                    <input type="hidden" name="name" value="KSCDC" />
+                    <input type="hidden" name="description" value={description} />
+                    <input type="hidden" name="image" value="https://cdn.razorpay.com/logos/BUVwvgaqVByGp2_large.jpg" />
+                    <input type="hidden" name="prefill[contact]" value="9123456780" />
+                    <input type="hidden" name="prefill[email]" value={customerMail} />
+                    <input type="hidden" name="notes[shipping address]" value={confirmShippingAddress} />
+                    <input type="hidden" name="callback_url" value="https://cashewcart.com/" />
+                    <input type="hidden" name="cancel_url" value="https://cashewcart.com/" />
+                    <button className="btn bg-red-500 text-white">Pay Now</button>
+                </form>
+            ) : (
+                    <div className="flex justify-end">
+                        <button className="btn bg-red-500 text-white hover:bg-red-600" onClick={() => handleProceedPayment()} disabled={loading}>
+                            {loading ? 'Loading...' : 'Confirm'}
+                        </button>
+                    </div>
+                )}
         </div>
     );
 };
