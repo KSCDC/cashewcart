@@ -6,26 +6,35 @@ import { Link } from 'react-router-dom';
 import { IoStarSharp } from "react-icons/io5";
 import { FaCartShopping } from 'react-icons/fa6';
 
-
 function TrendingProducts() {
     const [products, setProducts] = useState([]);
     const [page, setPage] = useState(1);
     const [hasPrevious, setHasPrevious] = useState(false);
     const [hasNext, setHasNext] = useState(false);
-    const [showMore, setShowMore] = useState(false)
-    const [loading, setLoading] = useState(false)
+    const [showMore, setShowMore] = useState(false);
+    const [loading, setLoading] = useState(false);
+
     useEffect(() => {
-        setLoading(true)
+        setLoading(true);
         fetch(`${BACKEND_URL}/api/product/trending/?page=${page}`)
             .then((res) => res.json())
             .then((data) => {
-                setProducts(data.results);
+                const uniqueProducts = removeDuplicateProducts(data.results);
+                setProducts(uniqueProducts);
                 setHasPrevious(!!data.previous);
                 setHasNext(!!data.next);
-                setLoading(false)
+                setLoading(false);
             })
             .catch((err) => console.log(`Error: ${err.message}`));
     }, [page]);
+
+    const removeDuplicateProducts = (products) => {
+        return products.filter((product, index, self) =>
+            index === self.findIndex((p) => (
+                p.product.product.name === product.product.product.name
+            ))
+        );
+    };
 
     const goToPrevPage = () => {
         setPage((prevPage) => prevPage - 1);
@@ -56,7 +65,6 @@ function TrendingProducts() {
                 loading ? <Loading /> : (
                     <div className="grid grid-cols-1 lg:grid-cols-4 gap-2">
                         {showMore ? (
-
                             products.map((data, index) => (
                                 <TrendingProductCard
                                     key={index}
@@ -66,11 +74,10 @@ function TrendingProducts() {
                                     image={data.product.product.product_images[0].product_image}
                                     selling_price={data.product.selling_price}
                                     rating={data.product.product.average_rating}
-
                                 />
                             ))
                         ) : (
-                            products.slice(0, 8).map((data, index) => (
+                            products.slice(0, 4).map((data, index) => (
                                 <TrendingProductCard
                                     key={index}
                                     name={data.product.product.name}
@@ -79,15 +86,12 @@ function TrendingProducts() {
                                     selling_price={data.product.selling_price}
                                     id={data.product.product.product_id}
                                     rating={data.product.product.average_rating}
-
-
                                 />
                             ))
                         )}
                     </div>
                 )
             }
-
             <div className="mt-4 flex justify-center">
                 <button onClick={() => setShowMore((prev) => !prev)} className='px-12 bg-red-500 py-3 font-bold text-white hover:bg-red-600 rounded-lg'>
                     {showMore ? "Show Less" : "Show More"}
@@ -109,22 +113,19 @@ const TrendingProductCard = ({ name, description, image, selling_price, id, rati
                 <div className="p-6">
                     <h3 className="text-gray-900 font-semibold text-xl mb-2">{name}</h3>
                     <p className="text-gray-700 text-base mb-4">{description.slice(0, 72)}...</p>
-                    <p className="text-red-500 text-xl font-semibold">₹{selling_price}</p>
+                    {/* <p className="text-red-500 text-xl font-semibold">₹{selling_price}</p> */}
                     <div className="flex items-center justify-between">
-                        {/* product rating */}
                         <div className="flex items-center text-yellow-400">
                             {Array.from({ length: rating }).map((_, index) => (
                                 <IoStarSharp key={index} className='text-lg' />
                             ))}
                             <span className='text-black'>({rating})</span>
                         </div>
-                        {/* open product in purchase page */}
                         <Link to="/purchase" state={{ id: id }}>
                             <button className="flex items-center gap-3 mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 ease-in-out">
                                 Buy Now
                                 <FaCartShopping />
                             </button>
-
                         </Link>
                     </div>
                 </div>

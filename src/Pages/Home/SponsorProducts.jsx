@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import { IoStarSharp } from "react-icons/io5";
 import { FaCartShopping } from 'react-icons/fa6';
 
-
 function SponsorProducts() {
     const [products, setProducts] = useState([]);
     const [page, setPage] = useState(1);
@@ -19,13 +18,22 @@ function SponsorProducts() {
         fetch(`${BACKEND_URL}/api/product/sponsors/?page=${page}`)
             .then((res) => res.json())
             .then((data) => {
-                setProducts(data.results);
+                const uniqueProducts = removeDuplicateProducts(data.results);
+                setProducts(uniqueProducts);
                 setHasPrevious(!!data.previous);
                 setHasNext(!!data.next);
                 setLoading(false)
             })
             .catch((err) => console.log(`Error: ${err.message}`));
     }, [page]);
+
+    const removeDuplicateProducts = (products) => {
+        return products.filter((product, index, self) =>
+            index === self.findIndex((p) => (
+                p.product.product.name === product.product.product.name
+            ))
+        );
+    };
 
     const goToPrevPage = () => {
         setPage((prevPage) => prevPage - 1);
@@ -70,7 +78,7 @@ function SponsorProducts() {
                                 />
                             ))
                         ) : (
-                            products.slice(0, 8).map((data, index) => (
+                            products.slice(0, 4).map((data, index) => (
                                 <SponsorProductCard
                                     key={index}
                                     name={data.product.product.name}
@@ -111,7 +119,7 @@ const SponsorProductCard = ({ name, description, image, selling_price, id, ratin
                 <div className="p-6">
                     <h3 className="text-gray-900 font-semibold text-xl mb-2">{name}</h3>
                     <p className="text-gray-700 text-base mb-4">{description.slice(0, 72)}...</p>
-                    <p className="text-red-500 text-xl font-semibold">₹{selling_price}</p>
+                    {/* <p className="text-red-500 text-xl font-semibold">₹{selling_price}</p> */}
                     <div className="flex items-center justify-between">
                         {/* product rating */}
                         <div className="flex items-center text-yellow-400">
