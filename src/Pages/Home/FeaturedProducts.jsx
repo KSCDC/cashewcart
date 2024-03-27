@@ -15,7 +15,13 @@ function FeaturedProducts() {
         fetch(`${BACKEND_URL}/api/product/list/?page=${page}`)
             .then((data) => data.json())
             .then((res) => {
-                setProducts(res);
+                // Filter out products with the same name
+                const uniqueProducts = res.results.filter((product, index, self) =>
+                    index === self.findIndex((p) => (
+                        p.product.name === product.product.name
+                    ))
+                );
+                setProducts({ ...res, results: uniqueProducts });
                 setLoading(false); // Set loading to false after data is fetched
             });
     }, [page]);
@@ -31,8 +37,6 @@ function FeaturedProducts() {
             setPage(page + 1);
         }
     };
-
-    
 
     return (
         <main className="min-h-screen">
@@ -57,14 +61,13 @@ function FeaturedProducts() {
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-2">
                     {showMore ? (
                         products.results.map((product) => (
-                            <ProductCard key={product.id} {...product} />
+                            <ProductCard key={product.product_variant_id} {...product} />
                         ))
                     ) : (
-                        products.results.slice(0, 8).map((product,index) => (
+                        products.results.slice(0, 4).map((product,index) => (
                             <ProductCard key={index} {...product} />
                         ))
                     )}
-
                 </div>
             )}
             <div className="mt-4 flex justify-center">

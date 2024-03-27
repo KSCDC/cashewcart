@@ -24,7 +24,7 @@ function ProductCard({ product, selling_price,id }) {
        {Array.from({length:product.average_rating}).map((_,index) => (
           <IoStarSharp key={index} className='text-lg'/>
         ))}
-        <span className='text-black'>({product.average_rating})</span>
+        {/* <span className='text-black'>({product.average_rating})</span> */}
        </div>
         {/* open product in purchase page */}
        <Link to="/purchase" state={{id:product.product_id}}>
