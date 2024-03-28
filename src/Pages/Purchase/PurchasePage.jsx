@@ -161,7 +161,7 @@ function PurchasePage({ product_id, name, description, product_images, product_v
 
 function SocialShare({ setIsShowShare, description }) {
   const [isCopied, setIsCopied] = useState(false)
-  const content = `${window.location.href} \n ${description}`
+  const content = `${window.location.href}\n\nDescription: <b>${description}</b>`;
   // function to cpy text
   const CopyText = () => {
     navigator.clipboard.writeText(content)
