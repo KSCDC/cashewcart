@@ -9,9 +9,13 @@ import TrendingProducts from '../Home/TrendingProducts';
 import SponsorProducts from '../Home/SponsorProducts';
 import NotFound from '../../Components/NotFound';
 
+
+
 function Purchase() {
   const [response, setResponse] = useState(null) // Initialize response state as null
   const [isLoading, setIsLoading] = useState(false)
+  // state to display modal of social share
+  const [isShare,setIsShare] = useState(false)
   // Extract the productId from URL parameters
   const { productId } = useParams();
 
