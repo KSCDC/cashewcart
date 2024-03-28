@@ -85,7 +85,7 @@ const ConfirmationComponent = ({ selectedShippingAddress, selectedBillingAddress
                     <input type="hidden" name="notes[shipping address]" value={confirmShippingAddress} />
                     <input type="hidden" name="callback_url" value="https://cashewcart.com/" />
                     <input type="hidden" name="cancel_url" value="https://cashewcart.com/" />
-                    <button className="btn bg-red-500 text-white">Pay Now</button>
+                    <button className="btn bg-red-500 text-white hover:bg-red-600">Pay Now</button>
                 </form>
             ) : (
                     <div className="flex justify-end">

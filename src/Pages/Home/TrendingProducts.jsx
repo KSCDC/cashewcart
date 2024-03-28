@@ -103,6 +103,7 @@ function TrendingProducts() {
 
 const TrendingProductCard = ({ name, description, image, selling_price, id, rating }) => {
     return (
+        <Link to={`/purchase/${id}`} className='group'>
         <Suspense fallback={<Loading />}>
             <div className="bg-white rounded-lg overflow-hidden shadow-lg">
                 <img
@@ -111,8 +112,8 @@ const TrendingProductCard = ({ name, description, image, selling_price, id, rati
                     alt="Product Primary Image"
                 />
                 <div className="p-6">
-                    <h3 className="text-gray-900 font-semibold text-xl mb-2">{name}</h3>
-                    <p className="text-gray-700 text-base mb-4">{description.slice(0, 72)}...</p>
+                    <h3 className="text-gray-900 font-semibold text-xl mb-2 group-hover:underline">{name}</h3>
+                    <p className="text-gray-700 text-base mb-4 group-hover:underline">{description.slice(0, 72)}...</p>
                     {/* <p className="text-red-500 text-xl font-semibold">₹{selling_price}</p> */}
                     <div className="flex items-center justify-between">
                         <div className="flex items-center text-yellow-400">
@@ -131,6 +132,7 @@ const TrendingProductCard = ({ name, description, image, selling_price, id, rati
                 </div>
             </div>
         </Suspense>
+        </Link>
 
 
     );

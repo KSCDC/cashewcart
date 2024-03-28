@@ -6,6 +6,7 @@ import { IoStarSharp } from "react-icons/io5";
 import { FaCartShopping } from "react-icons/fa6";
 function ProductCard({ product, selling_price }) {
   return (
+   <Link to={`/purchase/${product.product_id}`} className='group'>
     <Suspense fallback={<Loading/>}>
       <div className="bg-white rounded-lg overflow-hidden shadow-lg">
       <img
@@ -14,8 +15,8 @@ function ProductCard({ product, selling_price }) {
         alt="Product Primary Image"
       />
       <div className="p-6">
-        <h3 className="text-gray-900 font-semibold text-xl mb-2">{product.name}</h3>
-        <p className="text-gray-700 text-base mb-4">{product.description.slice(0, 72)}...</p>
+        <h3 className="text-gray-900 font-semibold text-xl mb-2 group-hover:underline">{product.name}</h3>
+        <p className="text-gray-700 text-base mb-4 group-hover:underline">{product.description.slice(0, 72)}...</p>
         {/* <p className="text-red-500 text-xl font-semibold">₹{selling_price}</p> */}
      
        <div className="flex items-center justify-between">
@@ -37,7 +38,7 @@ function ProductCard({ product, selling_price }) {
        </div>
       </div>
     </div>
-    </Suspense>
+    </Suspense></Link>
   );
 }
 

@@ -4,7 +4,7 @@ import { IoLocationOutline, IoCartOutline, IoClose, IoHomeOutline } from "react-
 import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
 import { CiMenuKebab } from "react-icons/ci";
 import useAuthStatus from '../Hooks/useAuthStatus';
-
+import { RiSearchLine } from 'react-icons/ri';
 import { FaUserLarge } from "react-icons/fa6";
 import { BACKEND_URL } from '../constants';
 
@@ -104,9 +104,14 @@ function Navbar({setShowModal}) {
             </h2>
           </Link>
           {/* search bar */}
-          <button onClick={() => setShowModal(true)}>
-            <input type="text" placeholder='Search Products' className='input w-96 bg-gray-100 disabled ' />
-          </button>
+          <button onClick={() => setShowModal(true)} className="relative">
+      <input
+        type="text"
+        placeholder="Search Products"
+        className="input w-96 bg-gray-100 disabled pl-10"
+      />
+      <RiSearchLine className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400" />
+    </button>
         </div>
 
         {/* Hamburger menu for mobile */}
@@ -119,16 +124,16 @@ function Navbar({setShowModal}) {
         </div>
         {/* Navigation links */}
         <div className={`lg:flex items-center gap-x-6 ${isMenuOpen ? 'flex flex-col lg:flex-row' : 'hidden'}`}>
-          <Link to="/" className='flex items-center hover:text-red-500 hover:underline'>
+          <Link to="/" className='flex items-center text-red-500 hover:underline'>
             <IoHomeOutline className='text-xl mr-1' />
             <span className='text-xl  font-medium'>Home</span>
           </Link>
 
-          <Link to="/cart" className='flex items-center space-x-3 hover:text-red-500 hover:underline'>
+          <Link to="/cart" className='flex items-center space-x-3 text-red-500 hover:underline'>
             {isLoggedIn ? (
               <div className="indicator ">
                 <IoCartOutline className='text-xl' />
-                <span className="badge badge-sm indicator-item bg-gray-200">{cartLength}</span>
+                <span className="badge badge-sm indicator-item bg-red-500 text-white font-bold">{cartLength}</span>
               </div>
             ) : (
               <IoCartOutline className='text-xl' />
