@@ -34,7 +34,7 @@ function ProductSearchModal({ setShowModal }) {
           />
           <button
           onClick={() => setShowModal(false)}
-          className="p-2 text-2xl rotate-45 hover:rotate-0 transition duration-300 bg-red-500 text-white rounded-full"
+          className="p-2 text-2xl  transition duration-300 bg-red-500 hover:bg-white hover:text-red-500 text-white rounded-full"
           title="Close"
         >
           <IoMdClose />
